@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_light"
+    android:orientation="vertical">
+
+    <!-- Horizontal Scrollable Tab Bar for 8 Order Statuses -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayoutOrders"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/white"
+        android:elevation="2dp"
+        app:tabIndicatorColor="@color/primary"
+        app:tabIndicatorHeight="3dp"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="@color/primary"
+        app:tabTextAppearance="@style/Base.Theme.CNPM24CT1"
+        app:tabTextColor="@color/text_secondary" />
+
+    <!-- ViewPager2 fills remaining space -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPagerOrders"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

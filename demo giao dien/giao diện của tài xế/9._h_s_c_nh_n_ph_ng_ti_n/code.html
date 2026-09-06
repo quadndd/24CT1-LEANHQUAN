@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><title>Driver App</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary": "#ffffff", "surface-container-lowest": "#ffffff", "error": "#ba1a1a", "surface-dim": "#d3daea", "on-primary-fixed": "#002109", "primary-fixed": "#71fe91", "surface-bright": "#f9f9ff", "secondary-fixed-dim": "#6add84", "surface-container-high": "#e2e8f8", "on-error": "#ffffff", "on-tertiary-fixed-variant": "#474746", "on-tertiary": "#ffffff", "surface-container-low": "#f0f3ff", "surface": "#f9f9ff", "outline-variant": "#bccbb9", "on-error-container": "#93000a", "primary-fixed-dim": "#52e078", "primary": "#006e2e", "secondary-container": "#87fb9d", "on-primary-container": "#003a15", "on-secondary-fixed-variant": "#005322", "error-container": "#ffdad6", "background": "#f9f9ff", "on-surface-variant": "#3d4a3d", "on-background": "#151c27", "surface-tint": "#006e2e", "surface-variant": "#dce2f3", "inverse-on-surface": "#ebf1ff", "on-secondary": "#ffffff", "secondary": "#006d2f", "on-tertiary-container": "#323131", "on-surface": "#151c27", "on-secondary-fixed": "#002109", "tertiary-fixed-dim": "#c8c6c5", "on-secondary-container": "#007433", "primary-container": "#00b14f", "tertiary-fixed": "#e5e2e1", "surface-container": "#e7eefe", "on-tertiary-fixed": "#1c1b1b", "inverse-surface": "#2a313d", "secondary-fixed": "#87fb9d", "surface-container-highest": "#dce2f3", "tertiary": "#5f5e5e", "outline": "#6d7b6c", "tertiary-container": "#9b9999", "inverse-primary": "#52e078", "on-primary-fixed-variant": "#005321" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "screen-edge": "16px", "sheet-bottom-safe": "34px", "pill-padding-y": "8px", "touch-min": "48px", "card-gap": "12px", "pill-padding-x": "14px", "inner-padding": "16px", "touch-lg": "56px" }, "fontFamily": { "label-md": ["Inter"], "headline-md": ["Inter"], "body-lg": ["Inter"], "display-income": ["Inter"], "headline-lg": ["Inter"], "label-prominent": ["Inter"], "label-sm": ["Inter"], "headline-timer": ["Inter"], "body-md": ["Inter"] }, "fontSize": { "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "600" }], "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "22px", "fontWeight": "500" }], "display-income": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "headline-lg": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "label-prominent": ["15px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "600" }], "headline-timer": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }] } } } };</script><style>@layer base{html,body{width:100%;margin:0;padding:0;background:#f9f9ff;font-family:'Inter',sans-serif;overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,16px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-surface text-on-surface flex flex-col min-h-screen selection:bg-primary/20"><header class="fixed top-0 inset-x-0 z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-14 px-screen-edge flex items-center justify-between"><div class="flex items-center gap-3"><img alt="Driver App Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UadSbZ_GnbE6Q-ZKhr0EChZXzbtEbeYAW-Iwhjn4zpQ8iHYEETKVgsikXfQOjxFdBDPUje1d7j4de1TgAqJPc7aXJ5dfcu-4GxE4OsxnhV20IzJWLpYBFTtIPxzSfkiJZDkNxwjh_tNDV-Ac-3ucmooXAIaeGtIZvEx9RRXDZipVO5dt4iBc5IKGRjTPy-Hv7MlJR4Bm2sABA3beS8HfDrZOI2qipHwX9ACC3sY2IBOwYCTtkNFBWibA"/><div class="flex flex-col"><span class="font-label-sm text-label-sm text-on-surface-variant leading-none uppercase tracking-wider">Tài xế</span><span class="font-headline-md text-headline-md text-on-surface leading-tight">Cá Nhân</span></div></div><div class="flex items-center gap-2"><button class="w-touch-min h-touch-min flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[24px]">notifications</span></button><button class="flex items-center justify-center rounded-full overflow-hidden w-9 h-9"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcB6uHyYEU_xr6DEBl4XDbCaR2T_IUrX2ZvjTcafV3yUJMctgzZBGZwbEAykn9A-78ZYd0E5TXtUJ705T4b57S4jpCYEv5w21xQYh9s0wfQtlXWNv9mHSxDPQXDvOW734cp8YSD7L6th4MzpnSzlvguzm8CrOP3OuOXhAWhLVDJDuqoKs8OjA8EG8W7eXukmKbOvrSzTbiO9Grld-lb10dkRe05sInKX2Ri4nbhBhlYa_jo4EZUyA"/></button></div></div></header><main class="flex-1 flex flex-col relative w-full pt-14 bg-surface pb-24"><div class="flex flex-col w-full px-screen-edge gap-card-gap pb-sheet-bottom-safe">
+<!-- Driver Hero Card -->
+<div class="bg-surface-container-lowest rounded-xl p-inner-padding shadow-sm flex flex-col gap-4 relative overflow-hidden">
+<div class="absolute -right-10 -top-10 w-36 h-36 bg-primary/5 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-center gap-4">
+<div class="relative flex-shrink-0">
+<img alt="Nguyễn Văn Tuấn" class="w-16 h-16 rounded-full object-cover shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcB6uHyYEU_xr6DEBl4XDbCaR2T_IUrX2ZvjTcafV3yUJMctgzZBGZwbEAykn9A-78ZYd0E5TXtUJ705T4b57S4jpCYEv5w21xQYh9s0wfQtlXWNv9mHSxDPQXDvOW734cp8YSD7L6th4MzpnSzlvguzm8CrOP3OuOXhAWhLVDJDuqoKs8OjA8EG8W7eXukmKbOvrSzTbiO9Grld-lb10dkRe05sInKX2Ri4nbhBhlYa_jo4EZUyA"/>
+<span class="absolute bottom-0 right-0 w-4 h-4 bg-primary rounded-full ring-2 ring-surface-container-lowest flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px] text-on-primary">check</span>
+</span>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-md text-headline-md text-on-surface truncate">Nguyễn Văn Tuấn</h2>
+</div>
+<span class="inline-flex items-center gap-1 text-primary font-label-sm text-label-sm mt-0.5">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+          Đối tác Tài xế Tiêu Biểu
+        </span>
+<p class="font-body-md text-body-md text-on-surface-variant truncate mt-1">
+          0912 345 678 • tuan.nguyen@driver.vn
+        </p>
+</div>
+</div>
+<!-- Telemetry Performance Strip -->
+<div class="grid grid-cols-3 gap-2 pt-1">
+<div class="bg-surface-container-low rounded-lg p-2.5 flex flex-col items-center justify-center text-center">
+<div class="flex items-center gap-1 text-[#eab308]">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-prominent text-label-prominent text-on-surface">4.98</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">1.420 đánh giá</span>
+</div>
+<div class="bg-surface-container-low rounded-lg p-2.5 flex flex-col items-center justify-center text-center">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[16px]">touch_app</span>
+<span class="font-label-prominent text-label-prominent text-on-surface">99%</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Chấp nhận</span>
+</div>
+<div class="bg-surface-container-low rounded-lg p-2.5 flex flex-col items-center justify-center text-center">
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-[16px]">do_not_disturb_on</span>
+<span class="font-label-prominent text-label-prominent text-on-surface">0.8%</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Tỉ lệ hủy</span>
+</div>
+</div>
+</div>
+<!-- Vehicle Info Card -->
+<div class="bg-surface-container-lowest rounded-xl p-inner-padding shadow-sm flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">directions_car</span>
+</div>
+<span class="font-label-prominent text-label-prominent text-on-surface">Phương tiện hoạt động</span>
+</div>
+<span class="bg-primary/10 text-primary font-label-sm text-label-sm px-2.5 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">verified</span>
+        Hạn đến 12/2026
+      </span>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface">Toyota Vios 2022 - Màu Trắng</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">Car 4 Chỗ</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Biển số:</span>
+<span class="font-headline-md text-headline-md tracking-wider text-on-surface bg-surface-container-lowest px-2 py-0.5 rounded shadow-sm">51K - 892.45</span>
+</div>
+<div class="flex items-center gap-1 text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[15px]">task_alt</span>
+<span>Đã xác thực</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Banking & Payout Card -->
+<div class="bg-surface-container-lowest rounded-xl p-inner-padding shadow-sm flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-[20px]">account_balance</span>
+</div>
+<span class="font-label-prominent text-label-prominent text-on-surface">Tài khoản thanh toán</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+        Tự động
+      </span>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 flex items-center justify-between">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center text-primary font-headline-md text-headline-md shadow-sm flex-shrink-0">
+<span class="material-symbols-outlined text-[22px]">payments</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface">Vietcombank</span>
+<span class="font-body-md text-body-md text-on-surface-variant tracking-wider">0071*****890</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Rút tự động</span>
+</div>
+</div>
+<!-- Menu Navigation List -->
+<div class="bg-surface-container-lowest rounded-xl p-2 shadow-sm flex flex-col">
+<!-- Menu Item 1 -->
+<button class="w-full flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors text-left group">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center text-primary group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]">badge</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Thông tin cá nhân &amp; Giấy phép lái xe</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">GPLX B2 • Cập nhật hồ sơ</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-[20px] text-outline">chevron_right</span>
+</button>
+<!-- Menu Item 2 -->
+<button class="w-full flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors text-left group">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center text-primary group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]">minor_crash</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Hồ sơ phương tiện &amp; Bảo hiểm xe</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Bảo hiểm bắt buộc &amp; tự nguyện TNDS</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-[20px] text-outline">chevron_right</span>
+</button>
+<!-- Menu Item 3 -->
+<button class="w-full flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors text-left group">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center text-primary group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]">account_balance_wallet</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Tài khoản ngân hàng &amp; Rút tiền</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Quản lý ví tài xế và chu kỳ đối soát</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-[20px] text-outline">chevron_right</span>
+</button>
+<!-- Menu Item 4 -->
+<button class="w-full flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors text-left group">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center text-on-surface-variant group-hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications_active</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Cài đặt âm thanh cuốc xe &amp; Thông báo</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Chuông báo nổ cuốc, rung &amp; giọng nói</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-[20px] text-outline">chevron_right</span>
+</button>
+<!-- Menu Item 5 -->
+<button class="w-full flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors text-left group">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-error-container flex items-center justify-center text-error group-hover:bg-error/20 transition-colors">
+<span class="material-symbols-outlined text-[20px]">security</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Trung tâm An toàn &amp; Cuộc gọi khẩn cấp SOS</span>
+<span class="font-label-sm text-label-sm text-error">Hỗ trợ khẩn cấp 113 &amp; Định vị trực tiếp</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-[20px] text-outline">chevron_right</span>
+</button>
+<!-- Menu Item 6 -->
+<button class="w-full flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors text-left group">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center text-on-surface-variant group-hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">support_agent</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Trợ giúp &amp; Hỗ trợ tài xế (24/7)</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Tổng đài đối tác, gửi yêu cầu sự cố</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-[20px] text-outline">chevron_right</span>
+</button>
+</div>
+<!-- Logout Button -->
+<button class="w-full h-touch-min bg-error-container text-on-error-container hover:bg-error hover:text-on-error transition-colors rounded-xl flex items-center justify-center gap-2 font-label-prominent text-label-prominent shadow-sm active:scale-[0.99]" type="button">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+    Đăng xuất tài khoản
+  </button>
+<div class="flex justify-center items-center gap-2 py-2">
+<span class="font-label-sm text-label-sm text-outline">Phiên bản tài xế 4.28.0 (Build 9042)</span>
+</div>
+</div></main><nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-4px_16px_rgba(0,0,0,0.06)]" data-active-classes="text-primary font-bold"><div class="flex items-center justify-around h-16 px-2 max-w-[420px] mx-auto"><a class="flex flex-col items-center justify-center flex-1 h-full py-1 text-on-surface-variant transition-colors hover:text-on-surface" data-path="trang-chu" href="#"><span class="material-symbols-outlined text-[24px]">explore</span><span class="font-label-sm text-label-sm mt-0.5">Trang chủ</span></a><a class="flex flex-col items-center justify-center flex-1 h-full py-1 text-on-surface-variant transition-colors hover:text-on-surface" data-path="chuyen-xe" href="#"><span class="material-symbols-outlined text-[24px]">receipt_long</span><span class="font-label-sm text-label-sm mt-0.5">Chuyến xe</span></a><a class="flex flex-col items-center justify-center flex-1 h-full py-1 text-on-surface-variant transition-colors hover:text-on-surface" data-path="thu-nhap" href="#"><span class="material-symbols-outlined text-[24px]">account_balance_wallet</span><span class="font-label-sm text-label-sm mt-0.5">Thu nhập</span></a><a class="flex flex-col items-center justify-center flex-1 h-full py-1 text-on-surface-variant transition-colors hover:text-on-surface" data-path="ca-nhan" href="#"><span class="material-symbols-outlined text-[24px]">person</span><span class="font-label-sm text-label-sm mt-0.5">Cá nhân</span></a></div></nav></body></html>

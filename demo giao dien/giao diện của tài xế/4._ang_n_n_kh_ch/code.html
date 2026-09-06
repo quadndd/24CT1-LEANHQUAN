@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><title>Driver App</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary": "#ffffff", "surface-container-lowest": "#ffffff", "error": "#ba1a1a", "surface-dim": "#d3daea", "on-primary-fixed": "#002109", "primary-fixed": "#71fe91", "surface-bright": "#f9f9ff", "secondary-fixed-dim": "#6add84", "surface-container-high": "#e2e8f8", "on-error": "#ffffff", "on-tertiary-fixed-variant": "#474746", "on-tertiary": "#ffffff", "surface-container-low": "#f0f3ff", "surface": "#f9f9ff", "outline-variant": "#bccbb9", "on-error-container": "#93000a", "primary-fixed-dim": "#52e078", "primary": "#006e2e", "secondary-container": "#87fb9d", "on-primary-container": "#003a15", "on-secondary-fixed-variant": "#005322", "error-container": "#ffdad6", "background": "#f9f9ff", "on-surface-variant": "#3d4a3d", "on-background": "#151c27", "surface-tint": "#006e2e", "surface-variant": "#dce2f3", "inverse-on-surface": "#ebf1ff", "on-secondary": "#ffffff", "secondary": "#006d2f", "on-tertiary-container": "#323131", "on-surface": "#151c27", "on-secondary-fixed": "#002109", "tertiary-fixed-dim": "#c8c6c5", "on-secondary-container": "#007433", "primary-container": "#00b14f", "tertiary-fixed": "#e5e2e1", "surface-container": "#e7eefe", "on-tertiary-fixed": "#1c1b1b", "inverse-surface": "#2a313d", "secondary-fixed": "#87fb9d", "surface-container-highest": "#dce2f3", "tertiary": "#5f5e5e", "outline": "#6d7b6c", "tertiary-container": "#9b9999", "inverse-primary": "#52e078", "on-primary-fixed-variant": "#005321" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "screen-edge": "16px", "sheet-bottom-safe": "34px", "pill-padding-y": "8px", "touch-min": "48px", "card-gap": "12px", "pill-padding-x": "14px", "inner-padding": "16px", "touch-lg": "56px" }, "fontFamily": { "label-md": ["Inter"], "headline-md": ["Inter"], "body-lg": ["Inter"], "display-income": ["Inter"], "headline-lg": ["Inter"], "label-prominent": ["Inter"], "label-sm": ["Inter"], "headline-timer": ["Inter"], "body-md": ["Inter"] }, "fontSize": { "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "600" }], "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "22px", "fontWeight": "500" }], "display-income": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "headline-lg": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "label-prominent": ["15px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "600" }], "headline-timer": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }] } } } };</script><style>@layer base{html,body{width:100%;margin:0;padding:0;background:#f9f9ff;font-family:'Inter',sans-serif;overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,16px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-surface text-on-surface flex flex-col min-h-screen selection:bg-primary/20"><header class="fixed top-0 inset-x-0 z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-14 px-screen-edge flex items-center justify-between"><div class="flex items-center gap-2"><button class="w-touch-min h-touch-min -ml-2 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-variant/40 transition-colors" onclick="history.back()"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><div class="flex items-center gap-2"><img alt="Driver App Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UadSbZ_GnbE6Q-ZKhr0EChZXzbtEbeYAW-Iwhjn4zpQ8iHYEETKVgsikXfQOjxFdBDPUje1d7j4de1TgAqJPc7aXJ5dfcu-4GxE4OsxnhV20IzJWLpYBFTtIPxzSfkiJZDkNxwjh_tNDV-Ac-3ucmooXAIaeGtIZvEx9RRXDZipVO5dt4iBc5IKGRjTPy-Hv7MlJR4Bm2sABA3beS8HfDrZOI2qipHwX9ACC3sY2IBOwYCTtkNFBWibA"/><h1 class="font-headline-md text-headline-md text-on-surface truncate">Chi Tiết Chuyến Đi</h1></div></div><div class="flex items-center gap-1"><button class="w-touch-min h-touch-min flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">help</span></button><button class="flex items-center justify-center rounded-full overflow-hidden w-9 h-9"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcB6uHyYEU_xr6DEBl4XDbCaR2T_IUrX2ZvjTcafV3yUJMctgzZBGZwbEAykn9A-78ZYd0E5TXtUJ705T4b57S4jpCYEv5w21xQYh9s0wfQtlXWNv9mHSxDPQXDvOW734cp8YSD7L6th4MzpnSzlvguzm8CrOP3OuOXhAWhLVDJDuqoKs8OjA8EG8W7eXukmKbOvrSzTbiO9Grld-lb10dkRe05sInKX2Ri4nbhBhlYa_jo4EZUyA"/></button></div></div></header><main class="flex-1 flex flex-col relative w-full pt-14 bg-surface"><div class="flex flex-col w-full relative">
+<!-- Map & Navigation Section (Top 60% approx visual weight) -->
+<div class="relative w-full h-[380px] overflow-hidden">
+<!-- Static Map Area with Location -->
+<div class="w-full h-full bg-cover bg-center" data-location="22 Le Duan, Ben Nghe, District 1, Ho Chi Minh City" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAsxwoDyRPxrwm8eM9he-lmk3_LkP8CQzhi3sAiaOrX5fiHVzCr9vZvka4COTzCXmYILj0XioV7GcVSqDDVoG3WiQdlr2SE45rJATsJbLB3SJ1Uz8htfOHDhgLrfsh6q2xzZHHSVBrLJqvsf3ojspqO8e2dBmliaAvMPBdDNODD7c4PgtUk9G-WGFO5nPs7sNJlt3N9jvNDvrbL9bZOch8ZaHdNxVBbkaIrxqjghOYqyXWCGHhxM8U')"></div>
+<!-- Soft Vignette Overlay for Tactical Readability -->
+<div class="absolute inset-0 bg-gradient-to-b from-on-surface/40 via-transparent to-surface pointer-events-none"></div>
+<!-- Turn-by-Turn Navigation Overlay Banner -->
+<div class="absolute top-3 inset-x-screen-edge z-20">
+<div class="bg-surface-container-lowest/95 backdrop-blur-md rounded-xl p-3 shadow-xl flex items-center gap-3">
+<!-- Turn Direction Icon -->
+<div class="w-12 h-12 rounded-lg bg-primary-container flex items-center justify-center text-on-primary flex-shrink-0 shadow-md">
+<span class="material-symbols-outlined text-[30px]" style="font-variation-settings: 'FILL' 1;">turn_right</span>
+</div>
+<!-- Maneuver Text & ETA -->
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold">150m nữa</span>
+<span class="inline-block w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">3 phút • 650m</span>
+</div>
+<p class="font-headline-md text-headline-md text-on-surface truncate mt-0.5">
+            Rẽ phải vào đường Hai Bà Trưng
+          </p>
+</div>
+<!-- Audio Guide Toggle Button -->
+<button class="w-touch-min h-touch-min flex items-center justify-center rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface active:scale-95 transition-all flex-shrink-0" id="audio-toggle-btn">
+<span class="material-symbols-outlined text-[22px]" id="audio-icon">volume_up</span>
+</button>
+</div>
+</div>
+<!-- Floating Map Quick Actions (Recenter, Safety Shield) -->
+<div class="absolute right-screen-edge bottom-6 z-20 flex flex-col gap-2">
+<!-- SOS Safety Quick Access -->
+<button class="w-11 h-11 rounded-full bg-error-container text-error flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">shield</span>
+</button>
+<!-- Recenter Route Button -->
+<button class="w-11 h-11 rounded-full bg-surface-container-lowest text-on-surface flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[22px]">my_location</span>
+</button>
+</div>
+<!-- Route Badge Mini Floating Indicator -->
+<div class="absolute left-screen-edge bottom-6 z-20">
+<div class="bg-inverse-surface/85 backdrop-blur-md px-3 py-1.5 rounded-full flex items-center gap-2 shadow-md">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-fixed-dim animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-inverse-on-surface font-semibold">Tín hiệu GPS: Tuyệt vời</span>
+</div>
+</div>
+</div>
+<!-- Driver Tactical Bottom Sheet -->
+<div class="relative z-30 -mt-4 bg-surface-container-lowest rounded-t-3xl shadow-[0_-8px_30px_rgba(0,0,0,0.12)] px-screen-edge pt-3 pb-sheet-bottom-safe flex flex-col gap-4">
+<!-- Drag Handle / Grabber Indicator -->
+<div class="w-10 h-1 rounded-full bg-surface-variant mx-auto mb-1"></div>
+<!-- Trip Progress State Banner -->
+<div class="flex items-center justify-between">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+<span class="font-label-md text-label-md tracking-wide uppercase">ĐANG ĐẾN ĐÓN KHÁCH</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">near_me</span>
+<span class="font-label-md text-label-md font-bold text-primary">650 m</span>
+</div>
+</div>
+<!-- Passenger Profile Card -->
+<div class="bg-surface-container-low p-inner-padding rounded-2xl flex items-center justify-between">
+<!-- Passenger Info -->
+<div class="flex items-center gap-3 min-w-0">
+<div class="relative flex-shrink-0">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="A friendly Vietnamese passenger named Tran Thu Ha with cheerful expression, clear professional modern portrait photo with soft studio natural lighting in urban setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXOzn3S9jp-Kg0aDudIjRNsPqtqOIJ7rgPCL4FSD7P2nkTf-PUBhxYaRgUlbLQG1Waz5YtecZZ4PcGmRKVDDRm7KRQHu2jlb5rZXmHg27M0QHjltgI2eFLt5_dhkguLbRs8i5DNQekJyYNELw7O8_lb2SG42wUHNfSRzrfFdrBnQfJ5PMvyjO2VkqiznBnlaULafTvlM2HPCMAkIM3-at4MYV_TfDOAdWodEWGMXr7r7eprQCRf3g"/>
+<div class="absolute -bottom-1 -right-1 bg-surface-container-lowest rounded-full p-0.5 shadow-sm">
+<span class="material-symbols-outlined text-primary text-[14px] block" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<h2 class="font-headline-md text-headline-md text-on-surface truncate">Trần Thu Hà</h2>
+<div class="flex items-center gap-0.5 bg-surface-container-highest px-1.5 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[13px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm text-on-surface font-bold">5.0</span>
+</div>
+</div>
+<div class="flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[15px] text-on-surface-variant">account_balance_wallet</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium truncate">Thanh toán Thẻ / Ví</span>
+</div>
+</div>
+</div>
+<!-- Quick Action Contact Buttons -->
+<div class="flex items-center gap-2 flex-shrink-0">
+<!-- Message Passenger -->
+<button class="w-touch-min h-touch-min rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface flex items-center justify-center active:scale-95 transition-all shadow-sm relative" id="chat-btn">
+<span class="material-symbols-outlined text-[22px]">chat</span>
+<span class="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-primary-container"></span>
+</button>
+<!-- Phone Call Passenger -->
+<a class="w-touch-min h-touch-min rounded-full bg-primary text-on-primary flex items-center justify-center active:scale-95 transition-all shadow-md" href="tel:0901234567">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">call</span>
+</a>
+</div>
+</div>
+<!-- Quick Communication Chips (One-Tap Pre-canned Messages) -->
+<div class="flex items-center gap-2 overflow-x-auto py-0.5 no-scrollbar">
+<button class="quick-reply-chip flex-shrink-0 bg-surface-container px-3 py-1.5 rounded-full text-on-surface font-label-md text-label-md flex items-center gap-1.5 active:bg-secondary-container transition-colors">
+<span class="material-symbols-outlined text-[16px] text-primary">send</span>
+<span>Tôi đã tới nơi</span>
+</button>
+<button class="quick-reply-chip flex-shrink-0 bg-surface-container px-3 py-1.5 rounded-full text-on-surface font-label-md text-label-md flex items-center gap-1.5 active:bg-secondary-container transition-colors">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">traffic</span>
+<span>Kẹt xe 2-3 phút</span>
+</button>
+<button class="quick-reply-chip flex-shrink-0 bg-surface-container px-3 py-1.5 rounded-full text-on-surface font-label-md text-label-md flex items-center gap-1.5 active:bg-secondary-container transition-colors">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">pin_drop</span>
+<span>Tôi đang bật đèn khẩn cấp</span>
+</button>
+</div>
+<!-- Pickup Location Detail Tile -->
+<div class="bg-surface-container-low p-inner-padding rounded-2xl flex items-start gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold tracking-wider">Điểm đón khách</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">Cửa trước</span>
+</div>
+<p class="font-body-lg text-body-lg font-bold text-on-surface truncate mt-0.5">22 Lê Duẩn, P. Bến Nghé</p>
+<p class="font-body-md text-body-md text-on-surface-variant truncate">Gần sảnh chính mPlaza, Quận 1</p>
+</div>
+</div>
+<!-- Primary Action: Massive Arrived Confirmation Button -->
+<div class="flex flex-col gap-2.5 pt-1">
+<button class="w-full h-touch-lg bg-primary-container text-on-primary rounded-2xl flex items-center justify-center gap-2 shadow-lg active:scale-[0.98] transition-all" id="btn-arrived">
+<span class="material-symbols-outlined text-[26px]">where_to_vote</span>
+<span class="font-label-prominent text-label-prominent text-[17px] font-extrabold tracking-wide uppercase">TÔI ĐÃ ĐẾN NƠI</span>
+</button>
+<!-- Secondary Emergency Trip Cancel Button -->
+<button class="w-full py-2 flex items-center justify-center gap-1.5 text-on-surface-variant hover:text-error active:opacity-75 transition-colors" id="btn-cancel">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+<span class="font-label-md text-label-md font-semibold">HỦY CHUYẾN (Lý do khẩn cấp)</span>
+</button>
+</div>
+</div>
+<!-- Interactive Toast Notification Alert (Triggered via CTA) -->
+<div class="fixed bottom-24 inset-x-screen-edge z-50 transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300" id="toast-notif">
+<div class="bg-inverse-surface text-inverse-on-surface px-4 py-3 rounded-xl shadow-2xl flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-md text-label-md" id="toast-text">Đã thông báo cho hành khách: Tài xế đã tới!</span>
+</div>
+<button class="text-inverse-on-surface/70 hover:text-inverse-on-surface" id="toast-close">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    const arrivedBtn = document.getElementById('btn-arrived');
+    const toast = document.getElementById('toast-notif');
+    const toastText = document.getElementById('toast-text');
+    const toastClose = document.getElementById('toast-close');
+    const audioBtn = document.getElementById('audio-toggle-btn');
+    const audioIcon = document.getElementById('audio-icon');
+    const quickChips = document.querySelectorAll('.quick-reply-chip');
+    const cancelBtn = document.getElementById('btn-cancel');
+
+    let isMuted = false;
+
+    // Toggle Navigation Audio Mute
+    if (audioBtn && audioIcon) {
+      audioBtn.addEventListener('click', () => {
+        isMuted = !isMuted;
+        audioIcon.textContent = isMuted ? 'volume_off' : 'volume_up';
+        showToast(isMuted ? 'Đã tắt giọng nói dẫn đường' : 'Đã bật chỉ đường bằng giọng nói');
+      });
+    }
+
+    // Show Toast helper
+    function showToast(msg) {
+      if (!toast) return;
+      toastText.textContent = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        hideToast();
+      }, 3500);
+    }
+
+    function hideToast() {
+      if (!toast) return;
+      toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+      toast.classList.remove('translate-y-0', 'opacity-100');
+    }
+
+    if (toastClose) {
+      toastClose.addEventListener('click', hideToast);
+    }
+
+    // "TÔI ĐÃ ĐẾN NƠI" State Flip
+    if (arrivedBtn) {
+      arrivedBtn.addEventListener('click', function() {
+        this.classList.remove('bg-primary-container');
+        this.classList.add('bg-primary');
+        this.innerHTML = `
+          <span class="material-symbols-outlined text-[26px]">done_all</span>
+          <span class="font-label-prominent text-label-prominent text-[17px] font-extrabold tracking-wide uppercase">ĐÃ BÁO KHÁCH (CHỜ 05:00)</span>
+        `;
+        showToast('Hành khách đã nhận thông báo bạn đã tới sảnh mPlaza!');
+      });
+    }
+
+    // Quick Reply Chip Interaction
+    quickChips.forEach(chip => {
+      chip.addEventListener('click', function() {
+        const text = this.innerText.trim();
+        showToast('Đã gửi tin: "' + text + '"');
+      });
+    });
+
+    // Cancel Button Prompt Warning
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', () => {
+        const confirmed = confirm('Bạn có chắc chắn muốn báo hủy chuyến khẩn cấp?');
+        if (confirmed) {
+          showToast('Yêu cầu hỗ trợ khẩn cấp đã được gửi tới tổng đài.');
+        }
+      });
+    }
+  })();
+</script></main></body></html>

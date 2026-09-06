@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><title>Driver App</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary": "#ffffff", "surface-container-lowest": "#ffffff", "error": "#ba1a1a", "surface-dim": "#d3daea", "on-primary-fixed": "#002109", "primary-fixed": "#71fe91", "surface-bright": "#f9f9ff", "secondary-fixed-dim": "#6add84", "surface-container-high": "#e2e8f8", "on-error": "#ffffff", "on-tertiary-fixed-variant": "#474746", "on-tertiary": "#ffffff", "surface-container-low": "#f0f3ff", "surface": "#f9f9ff", "outline-variant": "#bccbb9", "on-error-container": "#93000a", "primary-fixed-dim": "#52e078", "primary": "#006e2e", "secondary-container": "#87fb9d", "on-primary-container": "#003a15", "on-secondary-fixed-variant": "#005322", "error-container": "#ffdad6", "background": "#f9f9ff", "on-surface-variant": "#3d4a3d", "on-background": "#151c27", "surface-tint": "#006e2e", "surface-variant": "#dce2f3", "inverse-on-surface": "#ebf1ff", "on-secondary": "#ffffff", "secondary": "#006d2f", "on-tertiary-container": "#323131", "on-surface": "#151c27", "on-secondary-fixed": "#002109", "tertiary-fixed-dim": "#c8c6c5", "on-secondary-container": "#007433", "primary-container": "#00b14f", "tertiary-fixed": "#e5e2e1", "surface-container": "#e7eefe", "on-tertiary-fixed": "#1c1b1b", "inverse-surface": "#2a313d", "secondary-fixed": "#87fb9d", "surface-container-highest": "#dce2f3", "tertiary": "#5f5e5e", "outline": "#6d7b6c", "tertiary-container": "#9b9999", "inverse-primary": "#52e078", "on-primary-fixed-variant": "#005321" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "screen-edge": "16px", "sheet-bottom-safe": "34px", "pill-padding-y": "8px", "touch-min": "48px", "card-gap": "12px", "pill-padding-x": "14px", "inner-padding": "16px", "touch-lg": "56px" }, "fontFamily": { "label-md": ["Inter"], "headline-md": ["Inter"], "body-lg": ["Inter"], "display-income": ["Inter"], "headline-lg": ["Inter"], "label-prominent": ["Inter"], "label-sm": ["Inter"], "headline-timer": ["Inter"], "body-md": ["Inter"] }, "fontSize": { "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "600" }], "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "22px", "fontWeight": "500" }], "display-income": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "headline-lg": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "label-prominent": ["15px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "600" }], "headline-timer": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }] } } } };</script><style>@layer base{html,body{width:100%;margin:0;padding:0;background:#f9f9ff;font-family:'Inter',sans-serif;overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,16px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-surface text-on-surface flex flex-col min-h-screen selection:bg-primary/20"><header class="fixed top-0 inset-x-0 z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-14 px-screen-edge flex items-center justify-between"><div class="flex items-center gap-2"><button class="w-touch-min h-touch-min -ml-2 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-variant/40 transition-colors" onclick="history.back()"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><div class="flex items-center gap-2"><img alt="Driver App Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UadSbZ_GnbE6Q-ZKhr0EChZXzbtEbeYAW-Iwhjn4zpQ8iHYEETKVgsikXfQOjxFdBDPUje1d7j4de1TgAqJPc7aXJ5dfcu-4GxE4OsxnhV20IzJWLpYBFTtIPxzSfkiJZDkNxwjh_tNDV-Ac-3ucmooXAIaeGtIZvEx9RRXDZipVO5dt4iBc5IKGRjTPy-Hv7MlJR4Bm2sABA3beS8HfDrZOI2qipHwX9ACC3sY2IBOwYCTtkNFBWibA"/><h1 class="font-headline-md text-headline-md text-on-surface truncate">Đang Di Chuyển</h1></div></div><div class="flex items-center gap-1"><button class="w-touch-min h-touch-min flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">help</span></button><button class="flex items-center justify-center rounded-full overflow-hidden w-9 h-9"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcB6uHyYEU_xr6DEBl4XDbCaR2T_IUrX2ZvjTcafV3yUJMctgzZBGZwbEAykn9A-78ZYd0E5TXtUJ705T4b57S4jpCYEv5w21xQYh9s0wfQtlXWNv9mHSxDPQXDvOW734cp8YSD7L6th4MzpnSzlvguzm8CrOP3OuOXhAWhLVDJDuqoKs8OjA8EG8W7eXukmKbOvrSzTbiO9Grld-lb10dkRe05sInKX2Ri4nbhBhlYa_jo4EZUyA"/></button></div></div></header><main class="flex-1 flex flex-col relative w-full pt-14 bg-surface"><div class="flex flex-col w-full relative select-none">
+<!-- Map Background Canvas -->
+<div class="relative w-full h-[540px] overflow-hidden bg-surface-container-high">
+<div class="absolute inset-0 w-full h-full bg-cover bg-center" data-location="Landmark 81, Binh Thanh, Ho Chi Minh City, Vietnam" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDEed9zdIlAlN3lPJRPlCm_utfyfXqskQNB83etayl6D3IDTKRTQVyyn0747_Gj-UDj280nFGMzCA-K4W6N1ce5fNiLrB9S4Bqjfx7Jbbq9eCJo1Q9qHevOrYzAqmLtEZOHltbTfwQ1LMC4HFvR2MXx2nTFqTDp2z2XDSAUjHvkmD49rO-CRPYS39gNEKsZpO_NbMeK7Pbn2_b06JF4Z1vIzV9nT5RKCiDV1AjKnWKgKqVaYZcxulo')"></div>
+<!-- Gradient Vignette & Vector Traffic Overlay -->
+<div class="absolute inset-0 bg-gradient-to-b from-inverse-surface/60 via-transparent to-surface pointer-events-none"></div>
+<!-- Active Route Simulated Path SVG -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none drop-shadow-md" fill="none" viewbox="0 0 390 540">
+<!-- Glow & Base Line -->
+<path d="M 80 500 C 110 430, 160 360, 175 280 C 190 200, 260 180, 280 90" opacity="0.6" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
+<!-- Normal Green Segment -->
+<path d="M 80 500 C 95 465, 120 415, 140 370" stroke="#00b14f" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"></path>
+<!-- Amber Moderate Congestion Segment (Cầu Thị Nghè) -->
+<path d="M 140 370 C 160 325, 175 280, 185 240" stroke="#f59e0b" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"></path>
+<!-- Free Flow Green Segment to Destination -->
+<path d="M 185 240 C 200 190, 260 170, 280 90" stroke="#00b14f" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"></path>
+<!-- Pulsing Vehicle GPS Marker -->
+<g transform="translate(80, 500)">
+<circle class="animate-ping" fill="#00b14f" opacity="0.2" r="16"></circle>
+<circle fill="#ffffff" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.3))" r="10"></circle>
+<path d="M 0 -7 L 5 5 L 0 3 L -5 5 Z" fill="#006e2e"></path>
+</g>
+<!-- Landmark 81 Destination Pin -->
+<g transform="translate(280, 90)">
+<circle class="animate-pulse" fill="#ba1a1a" opacity="0.2" r="12"></circle>
+<circle fill="#ba1a1a" r="8"></circle>
+<circle fill="#ffffff" r="3"></circle>
+</g>
+</svg>
+<!-- Top Turn-by-Turn Maneuver HUD Bar -->
+<div class="absolute top-3 inset-x-screen-edge z-20 flex flex-col gap-2">
+<div class="bg-inverse-surface/95 backdrop-blur-md rounded-xl p-3.5 shadow-xl flex items-center gap-3.5 text-inverse-on-surface">
+<div class="w-12 h-12 rounded-lg bg-primary-container flex items-center justify-center text-on-primary flex-shrink-0 shadow-md">
+<span class="material-symbols-outlined text-[32px]">straight</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-headline-md text-headline-md text-inverse-on-surface leading-tight truncate">
+            Đi thẳng qua cầu Thị Nghè
+          </p>
+<p class="font-body-md text-body-md text-surface-container-high truncate">
+            Theo hướng Nguyễn Hữu Cảnh • <span class="font-semibold text-primary-fixed">3.4 km</span>
+</p>
+</div>
+<!-- Speed Limit Sign Pill -->
+<div class="flex flex-col items-center justify-center bg-surface-container-lowest text-on-surface w-11 h-11 rounded-full border-[3px] border-error flex-shrink-0 shadow-md">
+<span class="font-label-sm text-label-sm text-error uppercase -mb-0.5">Giới hạn</span>
+<span class="font-headline-md text-headline-md font-extrabold leading-none text-on-surface">50</span>
+</div>
+</div>
+<!-- Quick Telemetry Micro-Pill Strip -->
+<div class="flex items-center justify-between">
+<div class="bg-inverse-surface/85 backdrop-blur-md rounded-full px-3.5 py-1.5 flex items-center gap-2 text-inverse-on-surface shadow-md">
+<span class="w-2 h-2 rounded-full bg-primary-fixed animate-pulse"></span>
+<span class="font-label-md text-label-md">Dự kiến đến: <strong class="text-primary-fixed font-bold">16:45</strong> (11 phút)</span>
+</div>
+<button aria-label="Định vị tâm bản đồ" class="w-10 h-10 rounded-full bg-surface-container-lowest text-on-surface shadow-lg flex items-center justify-center active:scale-95 transition-transform" id="recenterBtn">
+<span class="material-symbols-outlined text-[22px] text-primary">my_location</span>
+</button>
+</div>
+</div>
+<!-- Floating Map Control Utilities -->
+<div class="absolute right-screen-edge bottom-6 z-10 flex flex-col gap-2.5">
+<button class="w-11 h-11 rounded-full bg-surface-container-lowest/95 backdrop-blur text-on-surface shadow-lg flex items-center justify-center active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[22px]">volume_up</span>
+</button>
+<button class="w-11 h-11 rounded-full bg-surface-container-lowest/95 backdrop-blur text-on-surface shadow-lg flex items-center justify-center active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[22px]">layers</span>
+</button>
+<button class="w-11 h-11 rounded-full bg-surface-container-lowest/95 backdrop-blur text-error shadow-lg flex items-center justify-center active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">report</span>
+</button>
+</div>
+</div>
+<!-- Bottom Sheet: Active Ride Details & Actions -->
+<div class="relative -mt-4 z-30 bg-surface rounded-t-[24px] shadow-2xl px-screen-edge pt-3 pb-8 flex flex-col gap-4">
+<!-- Drag Handle Pill -->
+<div class="w-12 h-1 rounded-full bg-outline-variant/60 self-center"></div>
+<!-- Status Badge & Live Fare Meter -->
+<div class="flex items-center justify-between">
+<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary-container text-on-secondary-container">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container animate-pulse"></span>
+<span class="font-label-md text-label-md tracking-wide uppercase font-bold">Đang thực hiện chuyến</span>
+</div>
+<div class="text-right">
+<p class="font-label-sm text-label-sm text-on-surface-variant">Giá cước tạm tính</p>
+<p class="font-headline-md text-headline-md font-extrabold text-primary">65.000 đ</p>
+</div>
+</div>
+<!-- Passenger & Route Metadata Card -->
+<div class="bg-surface-container-low rounded-2xl p-4 flex flex-col gap-3 shadow-sm">
+<!-- Passenger Row -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3 min-w-0">
+<div class="relative w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Warm lifestyle profile photograph of passenger Tran Thu Ha smiling gently wearing business casual attire in bright natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPA16tG46nzp_loOi-bFimBTVmyvzUtcqxH9bP_Ye0i8o6-k2FSffUvGsBMJ7Z4XP434QELV7nmjG4UvvwFzq8rMkXospxI1PD-830WfxukVlVuCfivGy_hB-c5BFxScKdOH8ljZu9XCSmEmazPsrqHCp2xOBjtgBy5K7ZsS7l32jotiNPZYPZDtrLm09tBm5GtUccdqCHMCmn0YOXU1hW3A22ZU8IluWa-F7xU_fPnut56pyPOUM"/>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<h2 class="font-headline-md text-headline-md text-on-surface truncate">Trần Thu Hà</h2>
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-surface-container text-on-surface text-[11px] font-bold">
+<span class="material-symbols-outlined text-[12px] text-amber-500" style="font-variation-settings: 'FILL' 1;">star</span>5.0
+              </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant truncate">1 khách • Ghế sau • Thanh toán thẻ</p>
+</div>
+</div>
+<!-- Quick Chat & Call Buttons -->
+<div class="flex items-center gap-1.5 flex-shrink-0">
+<a aria-label="Gọi điện khách" class="w-10 h-10 rounded-full bg-surface-container-highest text-on-surface flex items-center justify-center hover:bg-surface-variant transition-colors" href="tel:0900000000">
+<span class="material-symbols-outlined text-[20px]">call</span>
+</a>
+<button aria-label="Nhắn tin" class="w-10 h-10 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-md active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+</button>
+</div>
+</div>
+<!-- Destination Waypoint -->
+<div class="flex items-start gap-3 pt-2">
+<div class="flex flex-col items-center mt-1">
+<span class="w-3 h-3 rounded-full bg-error ring-4 ring-error-container"></span>
+<span class="w-0.5 h-6 bg-outline-variant my-1"></span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">flag</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Điểm đến</p>
+<p class="font-body-lg text-body-lg font-bold text-on-surface truncate">Sảnh L1, Landmark 81</p>
+<p class="font-body-md text-body-md text-on-surface-variant truncate">720A Điện Biên Phủ, Phường 22, Bình Thạnh</p>
+</div>
+</div>
+</div>
+<!-- Action Section: Emergency SOS + Finish Ride Slide/Tap Button -->
+<div class="flex items-center gap-3 pt-1">
+<!-- Emergency SOS Trigger -->
+<button aria-label="Cảnh báo khẩn cấp SOS" class="w-touch-lg h-touch-lg rounded-2xl bg-error-container text-error flex flex-col items-center justify-center flex-shrink-0 active:scale-95 transition-transform shadow-sm" id="sosBtn">
+<span class="material-symbols-outlined text-[26px]" style="font-variation-settings: 'FILL' 1;">shield</span>
+<span class="font-label-sm text-label-sm font-extrabold uppercase -mt-0.5">SOS</span>
+</button>
+<!-- Complete Ride CTA Button -->
+<button class="flex-1 h-[58px] rounded-2xl bg-primary-container text-on-primary font-headline-md text-headline-md tracking-wide uppercase font-extrabold shadow-lg shadow-primary-container/25 flex items-center justify-center gap-2 active:scale-[0.98] transition-all hover:bg-primary" id="completeTripBtn">
+<span class="material-symbols-outlined text-[26px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span>Hoàn thành chuyến</span>
+</button>
+</div>
+<!-- Completion Feedback Modal (Hidden by default) -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/60 backdrop-blur-sm hidden items-center justify-center px-screen-edge" id="completionOverlay">
+<div class="w-full bg-surface-container-lowest rounded-3xl p-6 shadow-2xl flex flex-col items-center text-center gap-4 animate-in fade-in zoom-in duration-200">
+<div class="w-16 h-16 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[36px]">verified</span>
+</div>
+<div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface">Chuyến đi hoàn tất!</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Cảm ơn bác tài đã đưa khách đến nơi an toàn.</p>
+</div>
+<div class="w-full bg-surface-container-low rounded-2xl p-4 flex justify-between items-center">
+<span class="font-body-md text-body-md text-on-surface-variant">Tổng thu nhập</span>
+<span class="font-headline-lg text-headline-lg font-extrabold text-primary">65.000 đ</span>
+</div>
+<button class="w-full h-touch-lg rounded-2xl bg-primary text-on-primary font-label-prominent text-label-prominent shadow-md active:scale-95 transition-transform" id="closeModalBtn">
+          Nhận chuyến tiếp theo
+        </button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    const completeBtn = document.getElementById('completeTripBtn');
+    const overlay = document.getElementById('completionOverlay');
+    const closeBtn = document.getElementById('closeModalBtn');
+    const sosBtn = document.getElementById('sosBtn');
+    const recenterBtn = document.getElementById('recenterBtn');
+
+    if (completeBtn && overlay) {
+      completeBtn.addEventListener('click', () => {
+        overlay.classList.remove('hidden');
+        overlay.classList.add('flex');
+      });
+    }
+
+    if (closeBtn && overlay) {
+      closeBtn.addEventListener('click', () => {
+        overlay.classList.add('hidden');
+        overlay.classList.remove('flex');
+      });
+    }
+
+    if (sosBtn) {
+      sosBtn.addEventListener('click', () => {
+        if (confirm('Kích hoạt trợ giúp SOS và thông báo trung tâm hỗ trợ 24/7?')) {
+          alert('Đang kết nối trung tâm an toàn...');
+        }
+      });
+    }
+
+    if (recenterBtn) {
+      recenterBtn.addEventListener('click', () => {
+        recenterBtn.classList.add('rotate-45');
+        setTimeout(() => recenterBtn.classList.remove('rotate-45'), 300);
+      });
+    }
+  })();
+</script></main></body></html>

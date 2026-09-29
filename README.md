@@ -1,17 +1,13 @@
-# cnpm_24ct1_leanhquan
+# GoRide VN - App Đặt Xe (Flutter & Supabase)
 
-A new Flutter project.
+## Architecture
+- **Frontend App:** Flutter / Dart
+- **Backend Services:** Supabase API (BaaS)
+- **Database:** PostgreSQL (hosted on Supabase)
+- **Realtime:** Supabase WebSockets
+
+This project is a ride-hailing application consisting of a Customer App and a Driver App, powered by Supabase for authentication, real-time database, and storage.
 
 ## Getting Started
 
 This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.

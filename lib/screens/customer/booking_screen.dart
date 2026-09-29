@@ -1,11 +1,17 @@
+// ============================================================
+// booking_screen.dart — Màn hình nhập điểm đón & điểm đến
+// Tìm kiếm địa chỉ qua Nominatim (OpenStreetMap), vẽ đường thực tế
+// Sau khi xác nhận → chuyển sang màn hình chọn loại xe
+// ============================================================
 import 'package:flutter/material.dart';
-import 'package:latlong2/latlong.dart';
-import 'dart:async';
+import 'package:latlong2/latlong.dart';       // Kiểu tọa độ LatLng
+import 'dart:async';                          // Dung Timer cho debounce tìm kiếm
 
-import '../../core/theme.dart';
-import '../../core/constants.dart';
-import '../../widgets/real_map_widget.dart';
-import '../../services/map_service.dart';
+import '../../core/theme.dart';               // Màu sắc app
+import '../../core/constants.dart';           // Hằng số app
+import '../../widgets/real_map_widget.dart';  // Bản đồ OpenStreetMap thực
+import '../../services/map_service.dart';     // Tìm kiếm địa điểm, tìm đường
+import '../../services/location_service.dart';// Lấy vị trí GPS thực tế
 
 class BookingScreen extends StatefulWidget {
   const BookingScreen({super.key});
@@ -15,29 +21,58 @@ class BookingScreen extends StatefulWidget {
 }
 
 class _BookingScreenState extends State<BookingScreen> {
+  // Controllers cho 2 ô nhập liệu điểm đón và điểm đến
   final _pickupController = TextEditingController();
   final _dropoffController = TextEditingController();
+  // FocusNode để biết ô nào đang được focus (xác định đang tìm kiếm pickup hay dropoff)
   final _pickupFocus = FocusNode();
   final _dropoffFocus = FocusNode();
 
-  LatLng? _pickupLocation;
-  LatLng? _dropoffLocation;
-  List<LatLng> _routePoints = [];
+  LatLng? _pickupLocation;              // Tọa độ điểm đón đã chọn
+  LatLng? _dropoffLocation;             // Tọa độ điểm đến đã chọn
+  List<LatLng> _routePoints = [];       // Danh sách tọa độ điểm trên tuyến đường
 
-  Timer? _debounce;
-  List<Map<String, dynamic>> _searchResults = [];
-  bool _isSearchingPickup = false;
-  bool _isSearchingDropoff = false;
+  Timer? _debounce;                     // Timer debounce: trì hoãn tìm kiếm 500ms sau khi gõ xong
+  List<Map<String, dynamic>> _searchResults = []; // Kết quả tìm kiếm địa điểm
+  bool _isSearchingPickup = false;      // Đang tìm kiếm cho ô điểm đón
+  bool _isSearchingDropoff = false;     // Đang tìm kiếm cho ô điểm đến
 
-  List<Map<String, dynamic>> _searchHistory = [];
+  List<Map<String, dynamic>> _searchHistory = []; // Lịch sử tìm kiếm gần đây
 
   @override
   void initState() {
     super.initState();
-    // Mặc định Điểm đón là Vị trí hiện tại
-    _pickupController.text = 'Vị trí hiện tại (Bến Nghé, Q1)'; 
-    _pickupLocation = const LatLng(10.7816, 106.6994); // Giả lập GPS hiện tại
-    _loadHistory();
+    // Khởi tạo tạm thời trong lúc chờ GPS
+    _pickupController.text = 'Đang định vị...'; 
+    _pickupLocation = const LatLng(10.7816, 106.6994);
+    
+    _loadHistory(); // Nạp lịch sử tìm kiếm từ SharedPreferences
+    _initGPS();     // Lấy vị trí GPS thật
+  }
+
+  Future<void> _initGPS() async {
+    // 1. Lấy tọa độ thật từ điện thoại
+    final position = await LocationService.getCurrentLocation();
+    if (position != null) {
+      final latLng = LatLng(position.latitude, position.longitude);
+      
+      // 2. Dịch ngược tọa độ thành địa chỉ cụ thể
+      final address = await MapService.reverseGeocode(latLng);
+      
+      if (mounted) {
+        setState(() {
+          _pickupLocation = latLng;
+          _pickupController.text = address; // Tự động điền vào ô điểm đón
+        });
+      }
+    } else {
+      // Fallback nếu không có quyền GPS
+      if (mounted) {
+        setState(() {
+          _pickupController.text = 'Vị trí hiện tại (Không thể lấy GPS)';
+        });
+      }
+    }
   }
 
   Future<void> _loadHistory() async {
@@ -57,21 +92,25 @@ class _BookingScreenState extends State<BookingScreen> {
     super.dispose();
   }
 
+  /// Tìm kiếm địa điểm theo từ khóa với cơ chế debounce (trì hoãn 500ms)
+  /// [isPickup]: true = đang tìm cho ô điểm đón, false = ô điểm đến
   void _onSearchChanged(String query, bool isPickup) {
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    if (_debounce?.isActive ?? false) _debounce!.cancel(); // Hủy timer cũ nếu có
     if (query.isEmpty) {
       setState(() {
-        _searchResults = [];
+        _searchResults = []; // Xóa kết quả nếu query rỗng
       });
       return;
     }
+    // Đặt timer 500ms: sẽ gọi API sau 500ms người dùng ngường gõ
     _debounce = Timer(const Duration(milliseconds: 500), () async {
       setState(() {
-        if (isPickup) _isSearchingPickup = true;
-        else _isSearchingDropoff = true;
+        if (isPickup) _isSearchingPickup = true;   // Hiện loading ở ô điểm đón
+        else _isSearchingDropoff = true;             // Hiện loading ở ô điểm đến
       });
 
-      final results = await MapService.searchAddress(query);
+      // Truyền vị trí hiện tại để ưu tiên tìm trong khu vực đang đứng
+      final results = await MapService.searchAddress(query, nearLocation: _pickupLocation);
       
       setState(() {
         _searchResults = results;
@@ -81,63 +120,119 @@ class _BookingScreenState extends State<BookingScreen> {
     });
   }
 
+  /// Xử lý khi người dùng chọn một địa điểm từ kết quả tìm kiếm hoặc lịch sử
   void _selectLocation(Map<String, dynamic> place, bool isPickup) async {
-    final latLng = LatLng(place['lat'], place['lon']);
+    final latLng = LatLng(place['lat'], place['lon']); // Chuyển tọa độ từ Map sang LatLng
     
-    // Lưu vào lịch sử tìm kiếm
+    // Lưu vào lịch sử tìm kiếm để gợi ý lần sau
     await MapService.saveSearchHistory(place);
     _loadHistory();
     
     setState(() {
       if (isPickup) {
-        _pickupController.text = place['name'];
-        _pickupLocation = latLng;
+        _pickupController.text = place['name'];  // Cập nhật nhãn ô điểm đón
+        _pickupLocation = latLng;                // Cập nhật tọa độ điểm đón
       } else {
-        _dropoffController.text = place['name'];
-        _dropoffLocation = latLng;
+        _dropoffController.text = place['name']; // Cập nhật nhãn ô điểm đến
+        _dropoffLocation = latLng;               // Cập nhật tọa độ điểm đến
       }
-      _searchResults = []; // Ẩn kết quả
+      _searchResults = []; // Ẩn kết quả tìm kiếm sau khi chọn
     });
 
-    // Nếu đã có đủ 2 điểm, gọi API tìm đường
+    // Nếu đã có đủ 2 điểm, gọi API tìm đường để vẽ route
     if (_pickupLocation != null && _dropoffLocation != null) {
       final route = await MapService.getRoute(_pickupLocation!, _dropoffLocation!);
       setState(() {
-        _routePoints = route;
+        _routePoints = route; // Cập nhật route trên bản đồ
       });
     }
+  }
+
+  Widget _highlightText(String text, String query) {
+    if (query.isEmpty) return Text(text, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 14));
+    final matchIndex = text.toLowerCase().indexOf(query.toLowerCase());
+    if (matchIndex == -1) return Text(text, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 14));
+    
+    return RichText(
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+      text: TextSpan(
+        style: const TextStyle(color: Colors.black, fontSize: 14),
+        children: [
+          TextSpan(text: text.substring(0, matchIndex)),
+          TextSpan(
+            text: text.substring(matchIndex, matchIndex + query.length),
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          TextSpan(text: text.substring(matchIndex + query.length)),
+        ],
+      ),
+    );
+  }
+
+  void _navigateToVehicleSelect() {
+    Navigator.pushNamed(
+      context, 
+      '/customer/vehicle-select',
+      arguments: {
+        'pickup': _pickupLocation,
+        'dropoff': _dropoffLocation,
+        'pickupName': _pickupController.text,
+        'dropoffName': _dropoffController.text,
+      }
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
+      resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
           // 1. Bản đồ (nửa trên)
           Positioned.fill(
             bottom: MediaQuery.of(context).size.height * 0.40,
             child: RealMapWidget(
+              isSelectingLocation: true,
               pickupLocation: _pickupLocation,
               dropoffLocation: _dropoffLocation,
               routePoints: _routePoints,
               onLocationSelected: (latLng) async {
-                // Tùy chọn: Nhấn trên bản đồ để chọn điểm đến
+                bool isPickup = _pickupFocus.hasFocus;
+                
+                // Hiển thị tạm text loading trong lúc gọi API
                 setState(() {
-                  _dropoffLocation = latLng;
-                  _dropoffController.text = 'Vị trí đã chọn trên bản đồ';
+                  if (isPickup) {
+                    _pickupLocation = latLng;
+                    _pickupController.text = 'Đang tải địa chỉ...';
+                  } else {
+                    _dropoffLocation = latLng;
+                    _dropoffController.text = 'Đang tải địa chỉ...';
+                  }
+                });
+
+                // Gọi API dịch ngược tọa độ thành địa chỉ
+                String address = await MapService.reverseGeocode(latLng);
+
+                setState(() {
+                  if (isPickup) {
+                    _pickupController.text = address;
+                  } else {
+                    _dropoffController.text = address;
+                  }
                 });
                 
                 // Lưu vào lịch sử 
                 await MapService.saveSearchHistory({
-                  'name': 'Vị trí đã chọn trên bản đồ',
+                  'name': address,
                   'lat': latLng.latitude,
                   'lon': latLng.longitude
                 });
                 _loadHistory();
 
-                if (_pickupLocation != null) {
-                  MapService.getRoute(_pickupLocation!, latLng).then((route) {
+                if (_pickupLocation != null && _dropoffLocation != null) {
+                  MapService.getRoute(_pickupLocation!, _dropoffLocation!).then((route) {
                     setState(() => _routePoints = route);
                   });
                 }
@@ -163,12 +258,16 @@ class _BookingScreenState extends State<BookingScreen> {
             bottom: 0,
             left: 0,
             right: 0,
-            top: MediaQuery.of(context).size.height * 0.45,
-            child: Container(
+            child: SafeArea(
+              top: false,
+              child: Container(
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                 boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, -5))],
+              ),
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.55,
               ),
               child: Column(
                 children: [
@@ -231,9 +330,16 @@ class _BookingScreenState extends State<BookingScreen> {
                           itemCount: _searchResults.length,
                           itemBuilder: (context, index) {
                             final place = _searchResults[index];
+                            String distanceStr = '';
+                            if (place['distance'] != null && place['distance'] > 0) {
+                              distanceStr = '${(place['distance'] as double).toStringAsFixed(1)} km';
+                            }
+                            String query = _pickupFocus.hasFocus ? _pickupController.text : _dropoffController.text;
+
                             return ListTile(
-                              leading: const Icon(Icons.place, color: Colors.grey),
-                              title: Text(place['name'], maxLines: 2, overflow: TextOverflow.ellipsis),
+                              leading: const Icon(Icons.location_on, color: Color(0xFF00B14F)),
+                              title: _highlightText(place['name'], query),
+                              subtitle: distanceStr.isNotEmpty ? Text(distanceStr, style: const TextStyle(color: Colors.grey, fontSize: 12)) : null,
                               onTap: () {
                                 bool isPickup = _pickupFocus.hasFocus;
                                 _selectLocation(place, isPickup);
@@ -258,6 +364,7 @@ class _BookingScreenState extends State<BookingScreen> {
                                   contentPadding: EdgeInsets.zero,
                                   leading: const Icon(Icons.history, color: Colors.grey),
                                   title: Text(place['name'], maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 14)),
+                                  subtitle: (place['distance'] != null && place['distance'] > 0) ? Text('${(place['distance'] as double).toStringAsFixed(1)} km', style: const TextStyle(color: Colors.grey, fontSize: 12)) : null,
                                   onTap: () {
                                     bool isPickup = _pickupFocus.hasFocus;
                                     _selectLocation(place, isPickup);
@@ -284,7 +391,7 @@ class _BookingScreenState extends State<BookingScreen> {
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                         ),
                         onPressed: (_pickupLocation != null && _dropoffLocation != null && _routePoints.isNotEmpty) 
-                          ? () => Navigator.pushNamed(context, '/customer/vehicle-select') 
+                          ? () => _navigateToVehicleSelect()
                           : null,
                         child: const Text('Xác nhận & Tiếp tục', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                       ),
@@ -293,9 +400,11 @@ class _BookingScreenState extends State<BookingScreen> {
                 ],
               ),
             ),
+            ),
           ),
         ],
       ),
     );
   }
 }
+

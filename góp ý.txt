@@ -1,0 +1,18 @@
+* người dung 	
+điểm đón điểm nhận phải đúng 
+tính tiền theo khoảng cách và giờ cao điểm tang lên bao nhiêu 
+quan lí mã giảm giá
+cứ 1 người dung tạo tài khoản mới thì tài khoản đó là trắng chưa có gì cả 
+thông báo tài xế đã đến nới
+* tài xế
+định dạng lại ngày tháng năm sinh
+tạo 1 vòng tròn bán kính để xác định khách hang phù hợp
+resest lại các dữ lieu
+đánh giá tài xế 
+* admin
+tạo 1 web quan lý
+*cả 2
+chỉnh lại điều hướng khi bấm cá nhân thì nó sẽ chuyển sang phảirang chủ sẽ chuyển sang trái
+*thanh toán
+Nếu như thanh toán bằng ví momo hoặc ngân hàng thì sẽ có QR thanh toán
+nếu như thanh toán bằng ngân hàng thì không xuất ra QR

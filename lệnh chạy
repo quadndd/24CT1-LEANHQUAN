@@ -1,3 +1,7 @@
-mở máy ảo : & "$env:LOCALAPPDATA\Android\Sdk\emulator\emulator.exe" -avd Android13_API33
-mở CMD : cd C:\Users\quan\Downloads\CNPM\24CT1_LEANHQUAN\cnpm_24ct1_leanhquan
+mở máy ảo tn : & "$env:LOCALAPPDATA\Android\Sdk\emulator\emulator.exe" -avd Pixel_API33_New
+        cmd: "%LOCALAPPDATA%\Android\Sdk\emulator\emulator.exe" -avd Android13_API33
+
+mở CMD : cd D:\CNPM\24CT1_LEANHQUAN\cnpm_24ct1_leanhquan
+tạo app: flutter run -d emulator-5554
         flutter run
+lưu database https://supabase.com/dashboard/project/kvdewjfidrbktwapphph/editor/17596?schema=public

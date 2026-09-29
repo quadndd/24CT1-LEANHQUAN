@@ -1,7 +1,13 @@
+// ============================================================
+// home_screen.dart — Trang chủ của Khách hàng
+// Hiển thị bản đồ thực + form đặt xe + thanh điều hướng dưới
+// ============================================================
 import 'package:flutter/material.dart';
-import '../../core/theme.dart';
-import '../../core/auth_service.dart';
-import '../../widgets/real_map_widget.dart';
+import 'package:supabase_flutter/supabase_flutter.dart'; // Kết nối Supabase để lấy thông tin user
+import 'dart:convert';                                   // Decode base64 avatar
+import '../../core/theme.dart';                          // Màu sắc app
+import '../../core/auth_service.dart';                   // Lấy thông tin user đã lưu
+import '../../widgets/real_map_widget.dart';             // Widget bản đồ OpenStreetMap thực
 
 class CustomerHomeScreen extends StatefulWidget {
   const CustomerHomeScreen({super.key});
@@ -11,8 +17,12 @@ class CustomerHomeScreen extends StatefulWidget {
 }
 
 class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
-  int _currentIndex = 0;
-  String _username = 'Thu Hà';
+  int _currentIndex = 0;        // Tab đang chọn trong BottomNavigationBar (0 = Home)
+  String _username = 'Thu Hà';  // Tên hiển thị mặc định (sẽ được cập nhật từ DB)
+
+  // Avatar mặc định — URL ảnh từ Google (sẽ được thay bằng ảnh user nếu có)
+  String _avatar =
+      'https://lh3.googleusercontent.com/aida-public/AB6AXuA9IemJmH933gvRAYYaGwkGpH-wCYhxIiuIvaH88MrGxGbgJulDuQHxXnZAYDyiTMwMlRIuQf4ultYsx-XyOUBj3n-LK5MLe718QxkVbpgX9Wvvp-2SnOnQu27m1dWG3e_8-7ArcUU7ISNHnn-4AOWuZGirN7RFY4Ucf0JGV4VS1drYMoLieC_vTjEsTfyh6L0nJ_r3GwwfhZadPqhoPxjI35fcUDPrpKFg91Ix_kUSbzSycx9wZ0Q';
 
   @override
   void initState() {
@@ -20,9 +30,36 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
     _loadUser();
   }
 
+  /// Tải thông tin người dùng từ Supabase (ưu tiên) hoặc từ SharedPreferences (fallback)
   Future<void> _loadUser() async {
-    final name = await AuthService.getSavedUsername();
-    if (name != null && name.isNotEmpty) {
+    final userId = await AuthService.getSavedUserId();   // Lấy ID từ bộ nhớ cục bộ
+    final name = await AuthService.getSavedUsername();   // Lấy tên từ bộ nhớ cục bộ
+
+    if (userId != null) {
+      try {
+        // Lấy thông tin mới nhất từ DB (tên và avatar có thể đã được cập nhật)
+        final profile = await Supabase.instance.client
+            .from('users')
+            .select()
+            .eq('id', userId)
+            .maybeSingle();
+
+        if (profile != null && mounted) {
+          setState(() {
+            _username = profile['fullname'] ?? name ?? 'Thu Hà';
+            if (profile['avatar'] != null) {
+              _avatar = profile['avatar']; // Cập nhật avatar nếu có trong DB
+            }
+          });
+          return;
+        }
+      } catch (e) {
+        // Fallback về tên đã lưu cục bộ nếu lỗi mạng
+      }
+    }
+
+    // Dùng tên từ SharedPreferences nếu không lấy được từ DB
+    if (name != null && name.isNotEmpty && mounted) {
       setState(() {
         _username = name;
       });
@@ -32,8 +69,8 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF9F9FF),
-      body: _buildHomeTab(),
+      backgroundColor: const Color(0xFFF9F9FF), // Nền trắng ngà
+      body: _buildHomeTab(), // Nội dung chính: bản đồ + bottom sheet đặt xe
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.9),
@@ -49,17 +86,24 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           child: BottomNavigationBar(
             currentIndex: 0,
             onTap: (index) {
-              if (index == 1) Navigator.pushReplacementNamed(context, '/customer/trips');
-              if (index == 2) Navigator.pushReplacementNamed(context, '/customer/notifications');
-              if (index == 3) Navigator.pushReplacementNamed(context, '/customer/profile');
+              // Điều hướng khi nhấn tab BottomNavigationBar
+              if (index == 1)
+                Navigator.pushReplacementNamed(context, '/customer/trips');         // Tab Chuyến đi
+              if (index == 2)
+                Navigator.pushReplacementNamed(
+                    context, '/customer/notifications');                              // Tab Thông báo
+              if (index == 3)
+                Navigator.pushReplacementNamed(context, '/customer/profile');       // Tab Cá nhân
             },
             type: BottomNavigationBarType.fixed,
             backgroundColor: Colors.transparent,
             elevation: 0,
             selectedItemColor: const Color(0xFF006E2E), // primary
             unselectedItemColor: const Color(0xFF6D7B6C), // outline
-            selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 11),
-            unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 11),
+            selectedLabelStyle:
+                const TextStyle(fontWeight: FontWeight.w700, fontSize: 11),
+            unselectedLabelStyle:
+                const TextStyle(fontWeight: FontWeight.w500, fontSize: 11),
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home_outlined),
@@ -152,7 +196,8 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                     Stack(
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.notifications_none, color: Color(0xFF3D4A3D)),
+                          icon: const Icon(Icons.notifications_none,
+                              color: Color(0xFF3D4A3D)),
                           onPressed: () {},
                         ),
                         Positioned(
@@ -170,9 +215,13 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                       ],
                     ),
                     const SizedBox(width: 4),
-                    const CircleAvatar(
+                    // Avatar người dùng: nếu là base64 → decode, nếu là URL → dùng network
+                    CircleAvatar(
                       radius: 16,
-                      backgroundImage: NetworkImage('https://lh3.googleusercontent.com/aida-public/AB6AXuA9IemJmH933gvRAYYaGwkGpH-wCYhxIiuIvaH88MrGxGbgJulDuQHxXnZAYDyiTMwMlRIuQf4ultYsx-XyOUBj3n-LK5MLe718QxkVbpgX9Wvvp-2SnOnQu27m1dWG3e_8-7ArcUU7ISNHnn-4AOWuZGirN7RFY4Ucf0JGV4VS1drYMoLieC_vTjEsTfyh6L0nJ_r3GwwfhZadPqhoPxjI35fcUDPrpKFg91Ix_kUSbzSycx9wZ0Q'),
+                      backgroundImage: _avatar.startsWith('data:image')
+                          ? MemoryImage(base64Decode(_avatar.split(',')[1])) // Decode base64 → bytes
+                              as ImageProvider
+                          : NetworkImage(_avatar), // URL thông thường → load từ mạng
                     ),
                   ],
                 ),
@@ -188,31 +237,40 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             children: [
               // --- Bản đồ ---
               Positioned.fill(
-                bottom: 100, // Để chừa khoảng trống cho DraggableSheet không bị đè mất
+                bottom:
+                    100, // Để chừa khoảng trống cho DraggableSheet không bị đè mất
                 child: RealMapWidget(
                   onLocationSelected: (latLng) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Đã chọn vị trí: ${latLng.latitude.toStringAsFixed(4)}, ${latLng.longitude.toStringAsFixed(4)}')),
+                      SnackBar(
+                          content: Text(
+                              'Đã chọn vị trí: ${latLng.latitude.toStringAsFixed(4)}, ${latLng.longitude.toStringAsFixed(4)}')),
                     );
                   },
                 ),
               ),
 
-              // --- Bottom Sheet (Có thể kéo lên xuống) ---
+              // ── Bottom Sheet kéo lên xuống (DraggableScrollableSheet) ──
+              // Chứa form đặt xe, có thể kéo từ 35% lên 85% chiều cao màn hình
               DraggableScrollableSheet(
-                initialChildSize: 0.45,
-                minChildSize: 0.35,
-                maxChildSize: 0.85,
+                initialChildSize: 0.45, // Hiển thị 45% màn hình khi mở
+                minChildSize: 0.35,     // Tối thiểu 35%
+                maxChildSize: 0.85,     // Tối đa 85% (gần full screen)
                 builder: (context, scrollController) {
                   return Container(
                     decoration: const BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(28)),
                       boxShadow: [
-                        BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, -4)),
+                        BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 10,
+                            offset: Offset(0, -4)),
                       ],
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
                     child: ListView(
                       controller: scrollController,
                       padding: EdgeInsets.zero,
@@ -229,7 +287,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                             ),
                           ),
                         ),
-                        
+
                         // Header "Bạn muốn đi đâu hôm nay?"
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -237,13 +295,16 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                             Expanded(
                               child: const Text(
                                 'Bạn muốn đi đâu hôm nay?',
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w700),
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 4),
                               decoration: BoxDecoration(
-                                color: const Color(0xFF87FB9D), // secondary-container
+                                color: const Color(
+                                    0xFF87FB9D), // secondary-container
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: const Text(
@@ -263,26 +324,35 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         Container(
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                            color: const Color(0xFFF0F3FF), // surface-container-low
+                            color: const Color(
+                                0xFFF0F3FF), // surface-container-low
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Column(
                             children: [
                               // Điểm đón
                               GestureDetector(
-                                onTap: () => Navigator.pushNamed(context, '/customer/booking'),
+                                onTap: () => Navigator.pushNamed(
+                                    context, '/customer/booking'),
                                 child: Row(
                                   children: [
-                                    const Icon(Icons.radio_button_checked, color: Color(0xFF006E2E), size: 20),
+                                    const Icon(Icons.radio_button_checked,
+                                        color: Color(0xFF006E2E), size: 20),
                                     const SizedBox(width: 12),
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: const [
-                                          Text('Điểm đón', style: TextStyle(color: Color(0xFF3D4A3D), fontSize: 11)),
+                                          Text('Điểm đón',
+                                              style: TextStyle(
+                                                  color: Color(0xFF3D4A3D),
+                                                  fontSize: 11)),
                                           Text(
                                             'Chạm để chọn điểm đón',
-                                            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 14),
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),
@@ -295,43 +365,69 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                                         color: Color(0xFFE7EEFE),
                                         shape: BoxShape.circle,
                                       ),
-                                      child: const Icon(Icons.edit_location_alt, size: 16, color: Color(0xFF3D4A3D)),
+                                      child: const Icon(Icons.edit_location_alt,
+                                          size: 16, color: Color(0xFF3D4A3D)),
                                     ),
                                   ],
                                 ),
                               ),
                               // Dấu chấm nổi
                               Padding(
-                                padding: const EdgeInsets.only(left: 8, top: 4, bottom: 4),
+                                padding: const EdgeInsets.only(
+                                    left: 8, top: 4, bottom: 4),
                                 child: Align(
                                   alignment: Alignment.centerLeft,
-                                  child: Container(width: 4, height: 12, decoration: BoxDecoration(color: const Color(0xFFDCE2F3), borderRadius: BorderRadius.circular(2))),
+                                  child: Container(
+                                      width: 4,
+                                      height: 12,
+                                      decoration: BoxDecoration(
+                                          color: const Color(0xFFDCE2F3),
+                                          borderRadius:
+                                              BorderRadius.circular(2))),
                                 ),
                               ),
                               // Điểm đến
                               GestureDetector(
-                                onTap: () => Navigator.pushNamed(context, '/customer/booking'),
+                                onTap: () => Navigator.pushNamed(
+                                    context, '/customer/booking'),
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 10),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(12),
-                                    boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 2)],
+                                    boxShadow: const [
+                                      BoxShadow(
+                                          color: Colors.black12, blurRadius: 2)
+                                    ],
                                   ),
                                   child: Row(
                                     children: const [
-                                      Icon(Icons.location_on, color: Color(0xFFBA1A1A), size: 22),
+                                      Icon(Icons.location_on,
+                                          color: Color(0xFFBA1A1A), size: 22),
                                       SizedBox(width: 12),
                                       Expanded(
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Text('Điểm đến', style: TextStyle(color: Color(0xFFBA1A1A), fontSize: 11, fontWeight: FontWeight.w600)),
-                                            Text('Nhập điểm bạn muốn đến...', style: TextStyle(color: Color(0xFF6D7B6C), fontSize: 15, fontWeight: FontWeight.w700)),
+                                            Text('Điểm đến',
+                                                style: TextStyle(
+                                                    color: Color(0xFFBA1A1A),
+                                                    fontSize: 11,
+                                                    fontWeight:
+                                                        FontWeight.w600)),
+                                            Text('Nhập điểm bạn muốn đến...',
+                                                style: TextStyle(
+                                                    color: Color(0xFF6D7B6C),
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.w700)),
                                           ],
                                         ),
                                       ),
-                                      Icon(Icons.search, color: Color(0xFF3D4A3D), size: 20),
+                                      Icon(Icons.search,
+                                          color: Color(0xFF3D4A3D), size: 20),
                                     ],
                                   ),
                                 ),
@@ -343,23 +439,30 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
 
                         const SizedBox(height: 24),
 
-                        // Nút Đặt xe ngay
+                        // ── Nút Đặt xe ngay ─────────────────────────────────
+                        // Nhấn → chuyển sang màn hình nhập điểm đón/đến
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton.icon(
-                            onPressed: () => Navigator.pushNamed(context, '/customer/booking'),
-                            icon: const Icon(Icons.electric_bolt, color: Colors.white, size: 22),
-                            label: const Text('Đặt xe ngay', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
+                            onPressed: () => Navigator.pushNamed(
+                                context, '/customer/booking'), // Đến màn hình booking
+                            icon: const Icon(Icons.electric_bolt,
+                                color: Colors.white, size: 22),
+                            label: const Text('Đặt xe ngay',
+                                style: TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.w700)),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF00B14F), // primary-container
+                              backgroundColor:
+                                  const Color(0xFF00B14F), // primary-container
                               foregroundColor: Colors.white,
                               padding: const EdgeInsets.symmetric(vertical: 16),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
                               elevation: 4,
                             ),
                           ),
                         ),
-                        
+
                         // Spacer dưới cùng
                         const SizedBox(height: 24),
                       ],
@@ -411,8 +514,12 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
-              Text(subtitle, style: const TextStyle(fontSize: 11, color: Color(0xFF3D4A3D))),
+              Text(title,
+                  style: const TextStyle(
+                      fontSize: 13, fontWeight: FontWeight.w600)),
+              Text(subtitle,
+                  style:
+                      const TextStyle(fontSize: 11, color: Color(0xFF3D4A3D))),
             ],
           ),
         ],

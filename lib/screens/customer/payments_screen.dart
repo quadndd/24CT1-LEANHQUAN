@@ -1,3 +1,8 @@
+// ============================================================
+// payments_screen.dart — Màn hình Thanh toán (Khách hàng)
+// Quản lý phương thức thanh toán: tiền mặt, ví điện tử, thẻ
+// Hiển thị lịch sử giao dịch
+// ============================================================
 import 'package:flutter/material.dart';
 import '../../core/theme.dart';
 

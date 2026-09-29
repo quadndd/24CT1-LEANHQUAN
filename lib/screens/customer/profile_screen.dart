@@ -1,8 +1,14 @@
+// ============================================================
+// profile_screen.dart — Màn hình Hồ sơ cá nhân (Khách hàng)
+// Hiển thị và chỉnh sửa thông tin: tên, SĐT, avatar
+// Cho phép upload ảnh từ camera/thư viện và đồng bộ lên Supabase
+// ============================================================
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:convert';
-import '../../core/theme.dart';
-import '../../core/auth_service.dart';
+import 'package:image_picker/image_picker.dart';            // Chọn ảnh từ gallery hoặc camera
+import 'dart:convert';                                      // Encode ảnh sang base64
+import 'package:supabase_flutter/supabase_flutter.dart';   // Lưu profile lên DB
+import '../../core/theme.dart';                            // Màu sắc app
+import '../../core/auth_service.dart';                     // Lấy/xóa session đăng nhập
 
 class CustomerProfileScreen extends StatefulWidget {
   const CustomerProfileScreen({super.key});
@@ -15,7 +21,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
   String _fullname = 'Đang tải...';
   String _phone = '';
   String _email = 'Chưa cập nhật email';
-  String _avatar = 'https://lh3.googleusercontent.com/aida-public/AB6AXuA9IemJmH933gvRAYYaGwkGpH-wCYhxIiuIvaH88MrGxGbgJulDuQHxXnZAYDyiTMwMlRIuQf4ultYsx-XyOUBj3n-LK5MLe718QxkVbpgX9Wvvp-2SnOnQu27m1dWG3e_8-7ArcUU7ISNHnn-4AOWuZGirN7RFY4Ucf0JGV4VS1drYMoLieC_vTjEsTfyh6L0nJ_r3GwwfhZadPqhoPxjI35fcUDPrpKFg91Ix_kUSbzSycx9wZ0Q';
+  String _avatar = 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png';
 
   @override
   void initState() {
@@ -24,10 +30,38 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
   }
 
   Future<void> _loadUserData() async {
+    final userId = await AuthService.getSavedUserId();
     final name = await AuthService.getSavedUsername();
     final phone = await AuthService.getSavedPhone();
     
-    // Tạm thời lấy email/avatar từ database giả định, cần update Auth để lấy thật sau
+    if (userId != null) {
+      try {
+        final profile = await Supabase.instance.client
+            .from('users')
+            .select()
+            .eq('id', userId)
+            .maybeSingle();
+            
+        if (profile != null && mounted) {
+          setState(() {
+            _fullname = profile['fullname'] ?? name ?? 'Người dùng';
+            _phone = profile['phone'] ?? phone ?? '';
+            
+            if (_phone.length >= 10) {
+              _phone = '${_phone.substring(0, 4)} ••• ${_phone.substring(_phone.length - 3)}';
+            }
+            
+            _email = profile['email'] ?? 'Chưa cập nhật email';
+            if (profile['avatar'] != null) {
+              _avatar = profile['avatar'];
+            }
+          });
+          return;
+        }
+      } catch (e) {
+        // Fallback below
+      }
+    }
     
     if (mounted) {
       setState(() {
@@ -74,13 +108,27 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                 width: double.infinity,
                 height: 48,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    final newName = nameCtrl.text.isNotEmpty ? nameCtrl.text : 'Người dùng';
+                    final newEmail = emailCtrl.text.isNotEmpty ? emailCtrl.text : 'Chưa cập nhật email';
+                    
+                    // Lưu lên database
+                    final userId = await AuthService.getSavedUserId();
+                    if (userId != null) {
+                      await Supabase.instance.client.from('users').update({
+                        'fullname': newName,
+                        'email': newEmail == 'Chưa cập nhật email' ? null : newEmail,
+                      }).eq('id', userId);
+                    }
+
                     setState(() {
-                      _fullname = nameCtrl.text.isNotEmpty ? nameCtrl.text : 'Người dùng';
-                      _email = emailCtrl.text.isNotEmpty ? emailCtrl.text : 'Chưa cập nhật email';
+                      _fullname = newName;
+                      _email = newEmail;
                     });
-                    Navigator.pop(ctx);
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Đã cập nhật (Bản Demo)')));
+                    if (ctx.mounted) {
+                      Navigator.pop(ctx);
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Đã cập nhật hồ sơ vào Database')));
+                    }
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF006E2E)),
                   child: const Text('Lưu thay đổi', style: TextStyle(color: Colors.white)),
@@ -116,12 +164,19 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                 if (image != null) {
                   final bytes = await image.readAsBytes();
                   final base64String = "data:image/jpeg;base64,${base64Encode(bytes)}";
+                  
+                  // Lưu lên database
+                  final userId = await AuthService.getSavedUserId();
+                  if (userId != null) {
+                    await Supabase.instance.client.from('users').update({'avatar': base64String}).eq('id', userId);
+                  }
+
                   setState(() {
                     _avatar = base64String;
                   });
                   if (ctx.mounted) {
                     Navigator.pop(ctx);
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Đã cập nhật ảnh đại diện')));
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Đã lưu ảnh đại diện vào Database')));
                   }
                 }
               },
@@ -294,8 +349,6 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                     // Bento Tiles
                   Row(
                     children: [
-                      _buildBentoTile(Icons.account_balance_wallet, const Color(0xFF87FB9D), 'Ví liên kết', '350.000đ', 'Nạp ví'),
-                      const SizedBox(width: 10),
                       _buildBentoTile(Icons.confirmation_number, const Color(0xFFE7EEFE), 'Ưu đãi của tôi', '5 mã giảm', 'Dùng ngay'),
                       const SizedBox(width: 10),
                       _buildBentoTile(Icons.loyalty, const Color(0xFFE7EEFE), 'Điểm thưởng', '850 xu', 'Đổi quà'),

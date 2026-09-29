@@ -1,3 +1,7 @@
+// ============================================================
+// settings_screen.dart — Màn hình Cài đặt (Khách hàng)
+// Tùy chỉnh ngôn ngữ, thông báo, bảo mật và về ứng dụng
+// ============================================================
 import 'package:flutter/material.dart';
 import '../../core/theme.dart';
 

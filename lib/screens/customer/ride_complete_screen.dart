@@ -1,5 +1,12 @@
+// ============================================================
+// ride_complete_screen.dart — Màn hình hoàn thành chuyến đi (Khách hàng)
+// Hiển thị tóm tắt chuyến đi, cho phép đánh giá tài xế (1-5 sao)
+// Cập nhật rating vào Supabase và chuyển về trang chủ
+// ============================================================
 import 'package:flutter/material.dart';
-import '../../core/theme.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';    // Lưu đánh giá vào DB
+import 'package:shared_preferences/shared_preferences.dart'; // Lấy thông tin session
+import '../../core/theme.dart';                             // Màu sắc app
 
 class RideCompleteScreen extends StatefulWidget {
   const RideCompleteScreen({super.key});
@@ -13,6 +20,7 @@ class _RideCompleteScreenState extends State<RideCompleteScreen> {
   final Set<String> _selectedTags = {};
   int? _selectedTip;
   final _commentController = TextEditingController();
+  bool _isSaving = false;
 
   final List<String> _ratingTexts = [
     'Rất không hài lòng (1 sao)',
@@ -40,6 +48,45 @@ class _RideCompleteScreenState extends State<RideCompleteScreen> {
       RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
       (m) => '${m[1]}.',
     );
+  }
+
+  /// Lưu đánh giá vào database (bảng rides + ride_ratings)
+  Future<void> _submitRating() async {
+    if (_isSaving) return;
+    setState(() => _isSaving = true);
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final userId = prefs.getString('id');
+
+      // Lưu rating vào bảng ride_ratings
+      await Supabase.instance.client.from('ride_ratings').insert({
+        'customer_id': userId,
+        'rating': _rating,
+        'tags': _selectedTags.toList().join(', '),
+        'comment': _commentController.text.trim(),
+        'tip_amount': _selectedTip ?? 0,
+        'created_at': DateTime.now().toIso8601String(),
+      });
+
+      // Cập nhật rating vào chuyến đi vừa hoàn thành (thông qua rideId)
+      final rideId = ModalRoute.of(context)?.settings.arguments as int?;
+      if (rideId != null) {
+        await Supabase.instance.client
+            .from('rides')
+            .update({'rating': _rating.toString()})
+            .eq('id', rideId);
+      }
+    } catch (e) {
+      // Không chặn user nếu lỗi mạng
+      debugPrint('Lỗi lưu rating: $e');
+    } finally {
+      if (mounted) setState(() => _isSaving = false);
+    }
+
+    if (mounted) {
+      Navigator.pushNamedAndRemoveUntil(context, '/customer/home', (route) => false);
+    }
   }
 
   @override
@@ -277,17 +324,19 @@ class _RideCompleteScreenState extends State<RideCompleteScreen> {
               child: SizedBox(
                 width: double.infinity, height: 56,
                 child: ElevatedButton(
-                  onPressed: () => Navigator.pushNamedAndRemoveUntil(context, '/customer/home', (route) => false),
+                  onPressed: _isSaving ? null : _submitRating,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF00B14F),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     elevation: 4,
                   ),
-                  child: const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Icon(Icons.check_circle, color: Colors.white, size: 24),
-                    SizedBox(width: 8),
-                    Text('GỬI ĐÁNH GIÁ & VỀ TRANG CHỦ', style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w700)),
-                  ]),
+                  child: _isSaving
+                      ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+                      : const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                          Icon(Icons.check_circle, color: Colors.white, size: 24),
+                          SizedBox(width: 8),
+                          Text('GỬI ĐÁNH GIÁ & VỀ TRANG CHỦ', style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w700)),
+                        ]),
                 ),
               ),
             ),

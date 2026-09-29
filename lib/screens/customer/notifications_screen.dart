@@ -1,3 +1,7 @@
+// ============================================================
+// notifications_screen.dart — Màn hình Thông báo (Khách hàng)
+// Hiển thị danh sách thông báo chuyến đi, khuyến mãi, hệ thống
+// ============================================================
 import 'package:flutter/material.dart';
 import '../../core/theme.dart';
 

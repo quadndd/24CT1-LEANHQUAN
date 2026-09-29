@@ -1,7 +1,13 @@
+// ============================================================
+// splash_screen.dart — Màn hình chào mừng (Splash Screen)
+// Hiển thị logo, loading indicator và tự động điều hướng sau 3 giây
+// Kiểm tra phiên đăng nhập để chuyển đến đúng màn hình
+// ============================================================
 import 'package:flutter/material.dart';
-import 'dart:async';
-import '../../core/auth_service.dart';
+import 'dart:async';                       // Dùng Timer để đếm thời gian
+import '../../core/auth_service.dart';     // Kiểm tra phiên đăng nhập đã lưu
 
+/// Màn hình Splash — hiển thị khi khởi động app
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -9,42 +15,47 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
+/// State của SplashScreen — quản lý animation và timer điều hướng
 class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
+  late AnimationController _controller; // Controller cho animation (hiện tại chỉ dùng repeat)
 
   @override
   void initState() {
     super.initState();
+    // Khởi tạo animation controller lặp vô hạn (dự phòng cho animation logo)
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
     )..repeat();
 
+    // Sau 3 giây → kiểm tra session và điều hướng đến màn hình phù hợp
     Timer(const Duration(milliseconds: 3000), () async {
-      if (!mounted) return;
+      if (!mounted) return; // Thoát nếu widget đã bị hủy
+      // Lấy route đã lưu dựa trên vai trò và trạng thái tài khoản
       final savedRoute = await AuthService.getSavedRoute();
       if (!mounted) return;
+      // Điều hướng thay thế (không thể quay lại splash)
       Navigator.pushReplacementNamed(
         context,
-        savedRoute ?? '/login',
+        savedRoute ?? '/login', // Nếu chưa đăng nhập → màn hình đăng nhập
       );
     });
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller.dispose(); // Giải phóng animation controller
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF9F9FF), // bg-surface
+      backgroundColor: const Color(0xFFF9F9FF), // Nền trắng ngà
       body: SafeArea(
         child: Stack(
           children: [
-            // Background blurs
+            // ── Vòng trang trí nền (góc trên phải) ──────────────────
             Positioned(
               top: -100,
               right: -100,
@@ -53,11 +64,12 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 height: 320,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: const Color(0xFF00B14F).withOpacity(0.1),
+                  color: const Color(0xFF00B14F).withOpacity(0.1), // Xanh lá mờ
                 ),
                 // Needs backdrop filter for true blur, but simple opacity is fine for now
               ),
             ),
+            // ── Vòng trang trí nền (góc dưới trái) ──────────────────
             Positioned(
               bottom: -100,
               left: -100,
@@ -66,19 +78,20 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 height: 288,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: const Color(0xFF87FB9D).withOpacity(0.15),
+                  color: const Color(0xFF87FB9D).withOpacity(0.15), // Xanh nhạt hơn
                 ),
               ),
             ),
             
             Column(
               children: [
-                // Top status bar area
+                // ── Thanh trạng thái trên cùng ───────────────────────
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      // Badge "Hệ thống sẵn sàng" (xanh lá)
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
@@ -87,6 +100,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                         ),
                         child: Row(
                           children: [
+                            // Chấm tròn xanh (indicator online)
                             Container(
                               width: 8,
                               height: 8,
@@ -107,6 +121,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                           ],
                         ),
                       ),
+                      // Badge "Được bảo chứng" (icon khiên)
                       const Row(
                         children: [
                           Icon(Icons.shield, color: Color(0xFF006E2E), size: 16),
@@ -125,13 +140,13 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   ),
                 ),
                 
-                const Spacer(),
+                const Spacer(), // Đẩy nội dung chính ra giữa màn hình
                 
-                // Main Content
+                // ── Nội dung chính (Logo + Tên app + Loading) ────────
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Logo
+                    // Logo ứng dụng — hình tròn với bóng đổ
                     Container(
                       width: 112,
                       height: 112,
@@ -143,16 +158,17 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                           BoxShadow(
                             color: Colors.black12,
                             blurRadius: 20,
-                            offset: Offset(0, 10),
+                            offset: Offset(0, 10), // Bóng đổ xuống dưới
                           ),
                         ],
                       ),
                       child: Image.network(
                         'https://lh3.googleusercontent.com/aida/AEtjO1UadSbZ_GnbE6Q-ZKhr0EChZXzbtEbeYAW-Iwhjn4zpQ8iHYEETKVgsikXfQOjxFdBDPUje1d7j4de1TgAqJPc7aXJ5dfcu-4GxE4OsxnhV20IzJWLpYBFTtIPxzSfkiJZDkNxwjh_tNDV-Ac-3ucmooXAIaeGtIZvEx9RRXDZipVO5dt4iBc5IKGRjTPy-Hv7MlJR4Bm2sABA3beS8HfDrZOI2qipHwX9ACC3sY2IBOwYCTtkNFBWibA',
-                        fit: BoxFit.contain,
+                        fit: BoxFit.contain, // Thu gọn vừa khít khung tròn
                       ),
                     ),
                     const SizedBox(height: 28),
+                    // Tên ứng dụng
                     const Text(
                       'Ứng dụng Đặt xe Flutter',
                       style: TextStyle(
@@ -162,6 +178,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                       ),
                     ),
                     const SizedBox(height: 8),
+                    // Slogan ngắn trong badge màu xanh nhạt
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                       decoration: BoxDecoration(
@@ -177,18 +194,19 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                           ),
                           children: [
                             TextSpan(text: 'Chuyến đi an toàn '),
-                            TextSpan(text: '•', style: TextStyle(color: Color(0xFF006E2E), fontWeight: FontWeight.bold)),
+                            TextSpan(text: '•', style: TextStyle(color: Color(0xFF006E2E), fontWeight: FontWeight.bold)), // Dấu chấm phân cách màu xanh
                             TextSpan(text: ' Giá cước minh bạch'),
                           ],
                         ),
                       ),
                     ),
                     const SizedBox(height: 36),
-                    // Loading indicator
+                    // Vòng tròn loading — màu xanh lá GoRide
                     const CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF00B14F)),
                     ),
                     const SizedBox(height: 12),
+                    // Text trạng thái loading
                     const Text(
                       'Đang kết nối vệ tinh định vị...',
                       style: TextStyle(
@@ -200,12 +218,13 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   ],
                 ),
                 
-                const Spacer(),
+                const Spacer(), // Đẩy footer xuống dưới cùng
                 
-                // Footer
+                // ── Footer thông tin phiên bản ────────────────────────
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    // Badge phiên bản
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                       decoration: BoxDecoration(
@@ -222,6 +241,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                       ),
                     ),
                     const SizedBox(height: 6),
+                    // Thông tin nhà cung cấp bản đồ
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

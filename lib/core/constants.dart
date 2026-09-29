@@ -1,25 +1,37 @@
-// Mock data và constants cho GoRide VN
+// ============================================================
+// constants.dart — Hằng số, kiểu dữ liệu & dữ liệu mẫu của GoRide VN
+// ============================================================
 
+/// Hằng số toàn cục của ứng dụng
 class AppConstants {
-  static const String appName = 'GoRide VN';
-  static const String appVersion = '1.0.0';
+  static const String appName = 'GoRide VN';   // Tên ứng dụng
+  static const String appVersion = '1.0.0';     // Phiên bản hiện tại
 }
 
-// Vai trò người dùng
+// Vai trò người dùng trong hệ thống
 enum UserRole { customer, driver, admin }
 
-// Trạng thái chuyến
-enum TripStatus { pending, finding, confirmed, inProgress, completed, cancelled }
+// Trạng thái của một chuyến đi
+enum TripStatus {
+  pending,     // Đang chờ (tìm tài xế)
+  finding,     // Đang tìm tài xế
+  confirmed,   // Đã xác nhận, tài xế đang đến
+  inProgress,  // Đang thực hiện chuyến đi
+  completed,   // Hoàn thành
+  cancelled,   // Đã hủy
+}
 
-// Loại xe
+// ─── Loại xe ─────────────────────────────────────────────────────────────────
+
+/// Model thông tin một loại xe
 class VehicleType {
-  final String id;
-  final String name;
-  final String icon;
-  final int seats;
-  final int price;
-  final int eta; // phút
-  final String description;
+  final String id;           // Mã định danh loại xe (gobike, gocar4, gocar7)
+  final String name;         // Tên hiển thị
+  final String icon;         // Biểu tượng emoji
+  final int seats;           // Số chỗ ngồi
+  final int price;           // Giá tham khảo (VND)
+  final int eta;             // Thời gian đón ước tính (phút)
+  final String description;  // Mô tả ngắn
 
   const VehicleType({
     required this.id,
@@ -32,16 +44,19 @@ class VehicleType {
   });
 }
 
-// Mock data - danh sách loại xe
+// ─── Dữ liệu mẫu (Mock Data) ─────────────────────────────────────────────────
+
+/// Lớp chứa toàn bộ dữ liệu mẫu dùng để demo UI
 class MockData {
+  /// Danh sách các loại xe GoRide
   static const List<VehicleType> vehicles = [
     VehicleType(
       id: 'gobike',
       name: 'GoBike',
       icon: '🛵',
       seats: 1,
-      price: 32000,
-      eta: 3,
+      price: 32000,      // 32.000đ
+      eta: 3,            // 3 phút
       description: 'Xe máy nhanh, tiết kiệm',
     ),
     VehicleType(
@@ -49,8 +64,8 @@ class MockData {
       name: 'GoCar 4 chỗ',
       icon: '🚗',
       seats: 4,
-      price: 65000,
-      eta: 5,
+      price: 65000,      // 65.000đ
+      eta: 5,            // 5 phút
       description: 'Ô tô 4 chỗ thoải mái',
     ),
     VehicleType(
@@ -58,12 +73,13 @@ class MockData {
       name: 'GoCar 7 chỗ',
       icon: '🚙',
       seats: 7,
-      price: 95000,
-      eta: 8,
+      price: 95000,      // 95.000đ
+      eta: 8,            // 8 phút
       description: 'Ô tô 7 chỗ rộng rãi',
     ),
   ];
 
+  /// Lịch sử chuyến đi mẫu để hiển thị demo
   static const List<MockTrip> recentTrips = [
     MockTrip(
       id: 't001',
@@ -74,7 +90,7 @@ class MockData {
       status: TripStatus.completed,
       vehicleType: 'GoCar 7 chỗ',
       driverName: 'Lê Văn Hùng',
-      rating: 5,
+      rating: 5,         // Đánh giá 5 sao
     ),
     MockTrip(
       id: 't002',
@@ -85,7 +101,7 @@ class MockData {
       status: TripStatus.completed,
       vehicleType: 'GoCar 4 chỗ',
       driverName: 'Trần Văn B',
-      rating: 4,
+      rating: 4,         // Đánh giá 4 sao
     ),
     MockTrip(
       id: 't003',
@@ -104,13 +120,14 @@ class MockData {
       to: 'Trường ĐHBK HCM',
       date: '12/08/2026',
       price: 45000,
-      status: TripStatus.cancelled,
+      status: TripStatus.cancelled,  // Chuyến đã bị hủy
       vehicleType: 'GoBike',
-      driverName: '',
-      rating: 0,
+      driverName: '',                // Không có tài xế vì đã hủy
+      rating: 0,                     // Không có đánh giá
     ),
   ];
 
+  /// Danh sách tài xế mẫu để hiển thị demo
   static const List<MockDriver> drivers = [
     MockDriver(
       id: 'd001',
@@ -143,7 +160,7 @@ class MockData {
       rating: 4.5,
       totalTrips: 320,
       isOnline: false,
-      status: 'Chờ duyệt',
+      status: 'Chờ duyệt',          // Tài khoản chưa được admin duyệt
       vehicleType: 'GoCar 7 chỗ',
       licensePlate: '51F-99999',
       joinDate: '10/08/2026',
@@ -155,7 +172,7 @@ class MockData {
       rating: 3.8,
       totalTrips: 50,
       isOnline: false,
-      status: 'Bị đình chỉ',
+      status: 'Bị đình chỉ',        // Tài khoản bị khóa
       vehicleType: 'GoBike',
       licensePlate: '29X1-11111',
       joinDate: '01/06/2024',
@@ -174,12 +191,14 @@ class MockData {
     ),
   ];
 
+  /// Địa điểm đã lưu mẫu của người dùng
   static const List<SavedAddress> savedAddresses = [
     SavedAddress(label: 'Nhà', address: '72 Lê Thánh Tôn, Bến Nghé, Quận 1', icon: '🏠'),
     SavedAddress(label: 'Công ty', address: 'Tòa nhà Bitexco, 2 Hải Triều, Quận 1', icon: '💼'),
     SavedAddress(label: 'Sân bay TSN', address: 'Sân bay Tân Sơn Nhất, Quận Tân Bình', icon: '✈️'),
   ];
 
+  /// Địa điểm gần đây (gợi ý nhanh) mẫu
   static const List<NearbyPlace> nearbyPlaces = [
     NearbyPlace(name: 'Vincom Center', address: '720A Điện Biên Phủ, Quận Bình Thạnh'),
     NearbyPlace(name: 'Chợ Bến Thành', address: 'Đ. Lê Lợi, Phường Bến Thành, Quận 1'),
@@ -187,7 +206,7 @@ class MockData {
     NearbyPlace(name: 'Sân bay Tân Sơn Nhất', address: 'Quận Tân Bình, TP.HCM'),
   ];
 
-  // Thông tin tài xế đang chạy (mock)
+  // Thông tin tài xế đang chạy (mock) — dùng trong màn hình active ride demo
   static const MockDriver currentDriver = MockDriver(
     id: 'd001',
     name: 'Lê Văn Hùng',
@@ -202,16 +221,19 @@ class MockData {
   );
 }
 
+// ─── Model Chuyến đi ──────────────────────────────────────────────────────────
+
+/// Model thông tin một chuyến đi (dùng cho lịch sử và hiển thị demo)
 class MockTrip {
-  final String id;
-  final String from;
-  final String to;
-  final String date;
-  final int price;
-  final TripStatus status;
-  final String vehicleType;
-  final String driverName;
-  final int rating;
+  final String id;           // Mã chuyến đi
+  final String from;         // Địa chỉ điểm đón
+  final String to;           // Địa chỉ điểm đến
+  final String date;         // Ngày thực hiện chuyến (dd/MM/yyyy)
+  final int price;           // Cước phí (VND)
+  final TripStatus status;   // Trạng thái chuyến đi
+  final String vehicleType;  // Tên loại xe
+  final String driverName;   // Tên tài xế
+  final int rating;          // Đánh giá (0-5 sao)
 
   const MockTrip({
     required this.id,
@@ -226,17 +248,20 @@ class MockTrip {
   });
 }
 
+// ─── Model Tài xế ────────────────────────────────────────────────────────────
+
+/// Model thông tin một tài xế
 class MockDriver {
-  final String id;
-  final String name;
-  final String phone;
-  final double rating;
-  final int totalTrips;
-  final bool isOnline;
-  final String status;
-  final String vehicleType;
-  final String licensePlate;
-  final String joinDate;
+  final String id;            // Mã định danh tài xế
+  final String name;          // Họ tên
+  final String phone;         // Số điện thoại
+  final double rating;        // Điểm đánh giá trung bình (0.0 - 5.0)
+  final int totalTrips;       // Tổng số chuyến đã thực hiện
+  final bool isOnline;        // Trạng thái trực tuyến/offline
+  final String status;        // Mô tả trạng thái tài khoản
+  final String vehicleType;   // Loại xe sử dụng
+  final String licensePlate;  // Biển số xe
+  final String joinDate;      // Ngày tham gia (dd/MM/yyyy)
 
   const MockDriver({
     required this.id,
@@ -252,17 +277,23 @@ class MockDriver {
   });
 }
 
+// ─── Model Địa chỉ đã lưu ───────────────────────────────────────────────────
+
+/// Model địa điểm đã lưu của người dùng (ví dụ: Nhà, Công ty)
 class SavedAddress {
-  final String label;
-  final String address;
-  final String icon;
+  final String label;    // Nhãn hiển thị (Nhà, Công ty...)
+  final String address;  // Địa chỉ đầy đủ
+  final String icon;     // Biểu tượng emoji
 
   const SavedAddress({required this.label, required this.address, required this.icon});
 }
 
+// ─── Model Địa điểm gần đây ─────────────────────────────────────────────────
+
+/// Model địa điểm phổ biến gần vị trí hiện tại (dùng để gợi ý nhanh)
 class NearbyPlace {
-  final String name;
-  final String address;
+  final String name;     // Tên địa điểm
+  final String address;  // Địa chỉ đầy đủ
 
   const NearbyPlace({required this.name, required this.address});
 }
